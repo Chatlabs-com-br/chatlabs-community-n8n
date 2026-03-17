@@ -8,7 +8,7 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "tsc --project tsconfig.json && cp chatlabs.png dist/chatlabs.png",
     "dev": "tsc --project tsconfig.json --watch"
   },
   "n8n": {
