@@ -136,6 +136,18 @@ export class ChatlabsNodes implements INodeType {
             description: "Obtém a URL do arquivo de uma mensagem",
             action: "Obter URL de arquivo de mensagem",
           },
+          {
+            name: "Listar Setores",
+            value: "listDepartments",
+            description: "Lista os setores da empresa",
+            action: "Listar setores",
+          },
+          {
+            name: "Obter Setor",
+            value: "getDepartment",
+            description: "Obtém um setor pelo ID",
+            action: "Obter setor",
+          },
         ],
         default: "listAttendants",
       },
@@ -167,6 +179,56 @@ export class ChatlabsNodes implements INodeType {
         },
         default: "",
         description: "ID do atendente a ser obtido",
+      },
+
+      // === getDepartment ===
+      {
+        displayName: "ID do Setor",
+        name: "getDepartmentId",
+        type: "string",
+        required: true,
+        displayOptions: { show: { operation: ["getDepartment"] } },
+        default: "",
+        description: "ID do setor a ser obtido",
+      },
+
+      // === listDepartments ===
+      {
+        displayName: "Por Página",
+        name: "deptPerPage",
+        type: "number",
+        displayOptions: { show: { operation: ["listDepartments"] } },
+        typeOptions: { minValue: 1, maxValue: 100 },
+        default: 10,
+        description: "Número de setores por página",
+      },
+      {
+        displayName: "Cursor",
+        name: "deptCursor",
+        type: "string",
+        displayOptions: { show: { operation: ["listDepartments"] } },
+        default: "",
+        description: "Cursor de paginação (opcional)",
+      },
+      {
+        displayName: "Campo de Pesquisa",
+        name: "deptField",
+        type: "options",
+        displayOptions: { show: { operation: ["listDepartments"] } },
+        options: [
+          { name: "Nenhum", value: "" },
+          { name: "Nome", value: "NAME" },
+        ],
+        default: "",
+        description: "Campo para filtrar os setores (opcional)",
+      },
+      {
+        displayName: "Valor da Pesquisa",
+        name: "deptValue",
+        type: "string",
+        displayOptions: { show: { operation: ["listDepartments"], deptField: ["NAME"] } },
+        default: "",
+        description: "Valor a ser pesquisado no campo selecionado",
       },
 
       // === getChatMessageFile ===
@@ -854,6 +916,38 @@ export class ChatlabsNodes implements INodeType {
             json: true,
           });
 
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "getDepartment") {
+          const deptId = this.getNodeParameter("getDepartmentId", i) as string;
+
+          const response = await this.helpers.httpRequest({
+            method: "GET",
+            url: `${baseUrl}/api/department/${deptId}`,
+            headers,
+            json: true,
+          });
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "listDepartments") {
+          const perPage = this.getNodeParameter("deptPerPage", i) as number;
+          const cursor = this.getNodeParameter("deptCursor", i) as string;
+          const field = this.getNodeParameter("deptField", i) as string;
+          const value = field ? (this.getNodeParameter("deptValue", i) as string) : "";
+
+          const qs: IDataObject = { perPage };
+          if (cursor) qs.cursor = cursor;
+          if (field && value) { qs.field = field; qs.value = value; }
+
+          const response = await this.helpers.httpRequest({
+            method: "GET",
+            url: `${baseUrl}/api/department`,
+            headers,
+            qs,
+            json: true,
+          });
           responseData = response as IDataObject;
         }
 
