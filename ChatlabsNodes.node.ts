@@ -76,6 +76,36 @@ export class ChatlabsNodes implements INodeType {
             description: "Remove um cliente da plataforma",
             action: "Deletar cliente",
           },
+          {
+            name: "Listar Etiquetas",
+            value: "listTags",
+            description: "Lista as etiquetas da plataforma",
+            action: "Listar etiquetas",
+          },
+          {
+            name: "Obter Etiqueta",
+            value: "getTag",
+            description: "Obtém uma etiqueta pelo ID",
+            action: "Obter etiqueta",
+          },
+          {
+            name: "Criar Etiqueta",
+            value: "createTag",
+            description: "Cria uma nova etiqueta",
+            action: "Criar etiqueta",
+          },
+          {
+            name: "Atualizar Etiqueta",
+            value: "updateTag",
+            description: "Atualiza os dados de uma etiqueta",
+            action: "Atualizar etiqueta",
+          },
+          {
+            name: "Deletar Etiqueta",
+            value: "deleteTag",
+            description: "Remove uma etiqueta da plataforma",
+            action: "Deletar etiqueta",
+          },
         ],
         default: "listAttendants",
       },
@@ -107,6 +137,125 @@ export class ChatlabsNodes implements INodeType {
         },
         default: "",
         description: "ID do atendente a ser obtido",
+      },
+
+      // === listTags ===
+      {
+        displayName: "Por Página",
+        name: "tagPerPage",
+        type: "number",
+        displayOptions: { show: { operation: ["listTags"] } },
+        typeOptions: { minValue: 1, maxValue: 100 },
+        default: 10,
+        description: "Número de etiquetas por página",
+      },
+      {
+        displayName: "Cursor",
+        name: "tagCursor",
+        type: "string",
+        displayOptions: { show: { operation: ["listTags"] } },
+        default: "",
+        description: "Cursor de paginação (opcional)",
+      },
+
+      // === getTag ===
+      {
+        displayName: "ID da Etiqueta",
+        name: "getTagId",
+        type: "string",
+        required: true,
+        displayOptions: { show: { operation: ["getTag"] } },
+        default: "",
+        description: "ID da etiqueta a ser obtida",
+      },
+
+      // === createTag ===
+      {
+        displayName: "Nome",
+        name: "createTagName",
+        type: "string",
+        required: true,
+        displayOptions: { show: { operation: ["createTag"] } },
+        default: "",
+        description: "Nome da etiqueta",
+      },
+      {
+        displayName: "Cor",
+        name: "createTagColor",
+        type: "color",
+        displayOptions: { show: { operation: ["createTag"] } },
+        default: "#ffffff",
+        description: "Cor da etiqueta",
+      },
+      {
+        displayName: "Nome Completo",
+        name: "createTagFullname",
+        type: "string",
+        displayOptions: { show: { operation: ["createTag"] } },
+        default: "",
+        description: "Nome completo da etiqueta (opcional)",
+      },
+      {
+        displayName: "Código",
+        name: "createTagCode",
+        type: "string",
+        displayOptions: { show: { operation: ["createTag"] } },
+        default: "",
+        description: "Código da etiqueta (opcional)",
+      },
+
+      // === updateTag ===
+      {
+        displayName: "ID da Etiqueta",
+        name: "updateTagId",
+        type: "string",
+        required: true,
+        displayOptions: { show: { operation: ["updateTag"] } },
+        default: "",
+        description: "ID da etiqueta a ser atualizada",
+      },
+      {
+        displayName: "Nome",
+        name: "updateTagName",
+        type: "string",
+        displayOptions: { show: { operation: ["updateTag"] } },
+        default: "",
+        description: "Nome da etiqueta (opcional)",
+      },
+      {
+        displayName: "Cor",
+        name: "updateTagColor",
+        type: "color",
+        displayOptions: { show: { operation: ["updateTag"] } },
+        default: "#ffffff",
+        description: "Cor da etiqueta (opcional)",
+      },
+      {
+        displayName: "Nome Completo",
+        name: "updateTagFullname",
+        type: "string",
+        displayOptions: { show: { operation: ["updateTag"] } },
+        default: "",
+        description: "Nome completo da etiqueta (opcional)",
+      },
+      {
+        displayName: "Código",
+        name: "updateTagCode",
+        type: "string",
+        displayOptions: { show: { operation: ["updateTag"] } },
+        default: "",
+        description: "Código da etiqueta (opcional)",
+      },
+
+      // === deleteTag ===
+      {
+        displayName: "ID da Etiqueta",
+        name: "deleteTagId",
+        type: "string",
+        required: true,
+        displayOptions: { show: { operation: ["deleteTag"] } },
+        default: "",
+        description: "ID da etiqueta a ser deletada",
       },
 
       // === updateClient ===
@@ -438,6 +587,89 @@ export class ChatlabsNodes implements INodeType {
             json: true,
           });
 
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "listTags") {
+          const perPage = this.getNodeParameter("tagPerPage", i) as number;
+          const cursor = this.getNodeParameter("tagCursor", i) as string;
+          const qs: IDataObject = { perPage };
+          if (cursor) qs.cursor = cursor;
+
+          const response = await this.helpers.httpRequest({
+            method: "GET",
+            url: `${baseUrl}/api/client-tag`,
+            headers,
+            qs,
+            json: true,
+          });
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "getTag") {
+          const tagId = this.getNodeParameter("getTagId", i) as string;
+
+          const response = await this.helpers.httpRequest({
+            method: "GET",
+            url: `${baseUrl}/api/client-tag/${tagId}`,
+            headers,
+            json: true,
+          });
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "createTag") {
+          const name = this.getNodeParameter("createTagName", i) as string;
+          const color = this.getNodeParameter("createTagColor", i) as string;
+          const fullname = this.getNodeParameter("createTagFullname", i) as string;
+          const code = this.getNodeParameter("createTagCode", i) as string;
+
+          const body: IDataObject = { name, color };
+          if (fullname) body.fullname = fullname;
+          if (code) body.code = code;
+
+          const response = await this.helpers.httpRequest({
+            method: "POST",
+            url: `${baseUrl}/api/client-tag`,
+            headers: { ...headers, "Content-Type": "application/json" },
+            body,
+            json: true,
+          });
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "updateTag") {
+          const tagId = this.getNodeParameter("updateTagId", i) as string;
+          const name = this.getNodeParameter("updateTagName", i) as string;
+          const color = this.getNodeParameter("updateTagColor", i) as string;
+          const fullname = this.getNodeParameter("updateTagFullname", i) as string;
+          const code = this.getNodeParameter("updateTagCode", i) as string;
+
+          const body: IDataObject = {};
+          if (name) body.name = name;
+          if (color) body.color = color;
+          if (fullname) body.fullname = fullname;
+          if (code) body.code = code;
+
+          const response = await this.helpers.httpRequest({
+            method: "PATCH",
+            url: `${baseUrl}/api/client-tag/${tagId}`,
+            headers: { ...headers, "Content-Type": "application/json" },
+            body,
+            json: true,
+          });
+          responseData = response as IDataObject;
+        }
+
+        if (operation === "deleteTag") {
+          const tagId = this.getNodeParameter("deleteTagId", i) as string;
+
+          const response = await this.helpers.httpRequest({
+            method: "DELETE",
+            url: `${baseUrl}/api/client-tag/${tagId}`,
+            headers,
+            json: true,
+          });
           responseData = response as IDataObject;
         }
 

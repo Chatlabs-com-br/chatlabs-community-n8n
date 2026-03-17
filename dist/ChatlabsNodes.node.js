@@ -60,6 +60,48 @@ class ChatlabsNodes {
                             description: "Cria um novo cliente na plataforma",
                             action: "Criar cliente",
                         },
+                        {
+                            name: "Atualizar Cliente",
+                            value: "updateClient",
+                            description: "Atualiza os dados de um cliente",
+                            action: "Atualizar cliente",
+                        },
+                        {
+                            name: "Deletar Cliente",
+                            value: "deleteClient",
+                            description: "Remove um cliente da plataforma",
+                            action: "Deletar cliente",
+                        },
+                        {
+                            name: "Listar Etiquetas",
+                            value: "listTags",
+                            description: "Lista as etiquetas da plataforma",
+                            action: "Listar etiquetas",
+                        },
+                        {
+                            name: "Obter Etiqueta",
+                            value: "getTag",
+                            description: "Obtém uma etiqueta pelo ID",
+                            action: "Obter etiqueta",
+                        },
+                        {
+                            name: "Criar Etiqueta",
+                            value: "createTag",
+                            description: "Cria uma nova etiqueta",
+                            action: "Criar etiqueta",
+                        },
+                        {
+                            name: "Atualizar Etiqueta",
+                            value: "updateTag",
+                            description: "Atualiza os dados de uma etiqueta",
+                            action: "Atualizar etiqueta",
+                        },
+                        {
+                            name: "Deletar Etiqueta",
+                            value: "deleteTag",
+                            description: "Remove uma etiqueta da plataforma",
+                            action: "Deletar etiqueta",
+                        },
                     ],
                     default: "listAttendants",
                 },
@@ -90,6 +132,221 @@ class ChatlabsNodes {
                     },
                     default: "",
                     description: "ID do atendente a ser obtido",
+                },
+                // === listTags ===
+                {
+                    displayName: "Por Página",
+                    name: "tagPerPage",
+                    type: "number",
+                    displayOptions: { show: { operation: ["listTags"] } },
+                    typeOptions: { minValue: 1, maxValue: 100 },
+                    default: 10,
+                    description: "Número de etiquetas por página",
+                },
+                {
+                    displayName: "Cursor",
+                    name: "tagCursor",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listTags"] } },
+                    default: "",
+                    description: "Cursor de paginação (opcional)",
+                },
+                // === getTag ===
+                {
+                    displayName: "ID da Etiqueta",
+                    name: "getTagId",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["getTag"] } },
+                    default: "",
+                    description: "ID da etiqueta a ser obtida",
+                },
+                // === createTag ===
+                {
+                    displayName: "Nome",
+                    name: "createTagName",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["createTag"] } },
+                    default: "",
+                    description: "Nome da etiqueta",
+                },
+                {
+                    displayName: "Cor",
+                    name: "createTagColor",
+                    type: "color",
+                    displayOptions: { show: { operation: ["createTag"] } },
+                    default: "#ffffff",
+                    description: "Cor da etiqueta",
+                },
+                {
+                    displayName: "Nome Completo",
+                    name: "createTagFullname",
+                    type: "string",
+                    displayOptions: { show: { operation: ["createTag"] } },
+                    default: "",
+                    description: "Nome completo da etiqueta (opcional)",
+                },
+                {
+                    displayName: "Código",
+                    name: "createTagCode",
+                    type: "string",
+                    displayOptions: { show: { operation: ["createTag"] } },
+                    default: "",
+                    description: "Código da etiqueta (opcional)",
+                },
+                // === updateTag ===
+                {
+                    displayName: "ID da Etiqueta",
+                    name: "updateTagId",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["updateTag"] } },
+                    default: "",
+                    description: "ID da etiqueta a ser atualizada",
+                },
+                {
+                    displayName: "Nome",
+                    name: "updateTagName",
+                    type: "string",
+                    displayOptions: { show: { operation: ["updateTag"] } },
+                    default: "",
+                    description: "Nome da etiqueta (opcional)",
+                },
+                {
+                    displayName: "Cor",
+                    name: "updateTagColor",
+                    type: "color",
+                    displayOptions: { show: { operation: ["updateTag"] } },
+                    default: "#ffffff",
+                    description: "Cor da etiqueta (opcional)",
+                },
+                {
+                    displayName: "Nome Completo",
+                    name: "updateTagFullname",
+                    type: "string",
+                    displayOptions: { show: { operation: ["updateTag"] } },
+                    default: "",
+                    description: "Nome completo da etiqueta (opcional)",
+                },
+                {
+                    displayName: "Código",
+                    name: "updateTagCode",
+                    type: "string",
+                    displayOptions: { show: { operation: ["updateTag"] } },
+                    default: "",
+                    description: "Código da etiqueta (opcional)",
+                },
+                // === deleteTag ===
+                {
+                    displayName: "ID da Etiqueta",
+                    name: "deleteTagId",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["deleteTag"] } },
+                    default: "",
+                    description: "ID da etiqueta a ser deletada",
+                },
+                // === updateClient ===
+                {
+                    displayName: "ID do Cliente",
+                    name: "updateClientId",
+                    type: "string",
+                    required: true,
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    description: "ID do cliente a ser atualizado",
+                },
+                {
+                    displayName: "Nome",
+                    name: "updateClientName",
+                    type: "string",
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    description: "Nome do cliente (opcional)",
+                },
+                {
+                    displayName: "Telefones",
+                    name: "updateClientPhones",
+                    type: "string",
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    description: "Telefones separados por vírgula (opcional)",
+                },
+                {
+                    displayName: "E-mail",
+                    name: "updateClientEmail",
+                    type: "string",
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    description: "E-mail do cliente (opcional)",
+                },
+                {
+                    displayName: "Identificação",
+                    name: "updateClientIdentification",
+                    type: "string",
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    description: "CPF/CNPJ ou outro identificador (opcional)",
+                },
+                {
+                    displayName: "Data de Nascimento",
+                    name: "updateClientBirthday",
+                    type: "string",
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    placeholder: "DD/MM/AAAA",
+                    description: "Data de nascimento no formato DD/MM/AAAA (opcional)",
+                },
+                {
+                    displayName: "Tags",
+                    name: "updateClientTags",
+                    type: "string",
+                    displayOptions: {
+                        show: {
+                            operation: ["updateClient"],
+                        },
+                    },
+                    default: "",
+                    description: "Tags separadas por vírgula (opcional)",
+                },
+                // === deleteClient ===
+                {
+                    displayName: "ID do Cliente",
+                    name: "deleteClientId",
+                    type: "string",
+                    required: true,
+                    displayOptions: {
+                        show: {
+                            operation: ["deleteClient"],
+                        },
+                    },
+                    default: "",
+                    description: "ID do cliente a ser deletado",
                 },
                 // === createClient ===
                 {
@@ -299,6 +556,124 @@ class ChatlabsNodes {
                     const response = await this.helpers.httpRequest({
                         method: "GET",
                         url: `${baseUrl}/api/attendant/${attendantId}`,
+                        headers,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "listTags") {
+                    const perPage = this.getNodeParameter("tagPerPage", i);
+                    const cursor = this.getNodeParameter("tagCursor", i);
+                    const qs = { perPage };
+                    if (cursor)
+                        qs.cursor = cursor;
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/client-tag`,
+                        headers,
+                        qs,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "getTag") {
+                    const tagId = this.getNodeParameter("getTagId", i);
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/client-tag/${tagId}`,
+                        headers,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "createTag") {
+                    const name = this.getNodeParameter("createTagName", i);
+                    const color = this.getNodeParameter("createTagColor", i);
+                    const fullname = this.getNodeParameter("createTagFullname", i);
+                    const code = this.getNodeParameter("createTagCode", i);
+                    const body = { name, color };
+                    if (fullname)
+                        body.fullname = fullname;
+                    if (code)
+                        body.code = code;
+                    const response = await this.helpers.httpRequest({
+                        method: "POST",
+                        url: `${baseUrl}/api/client-tag`,
+                        headers: { ...headers, "Content-Type": "application/json" },
+                        body,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "updateTag") {
+                    const tagId = this.getNodeParameter("updateTagId", i);
+                    const name = this.getNodeParameter("updateTagName", i);
+                    const color = this.getNodeParameter("updateTagColor", i);
+                    const fullname = this.getNodeParameter("updateTagFullname", i);
+                    const code = this.getNodeParameter("updateTagCode", i);
+                    const body = {};
+                    if (name)
+                        body.name = name;
+                    if (color)
+                        body.color = color;
+                    if (fullname)
+                        body.fullname = fullname;
+                    if (code)
+                        body.code = code;
+                    const response = await this.helpers.httpRequest({
+                        method: "PATCH",
+                        url: `${baseUrl}/api/client-tag/${tagId}`,
+                        headers: { ...headers, "Content-Type": "application/json" },
+                        body,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "deleteTag") {
+                    const tagId = this.getNodeParameter("deleteTagId", i);
+                    const response = await this.helpers.httpRequest({
+                        method: "DELETE",
+                        url: `${baseUrl}/api/client-tag/${tagId}`,
+                        headers,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "updateClient") {
+                    const clientId = this.getNodeParameter("updateClientId", i);
+                    const name = this.getNodeParameter("updateClientName", i);
+                    const email = this.getNodeParameter("updateClientEmail", i);
+                    const identification = this.getNodeParameter("updateClientIdentification", i);
+                    const birthday = this.getNodeParameter("updateClientBirthday", i);
+                    const phonesRaw = this.getNodeParameter("updateClientPhones", i);
+                    const tagsRaw = this.getNodeParameter("updateClientTags", i);
+                    const body = {};
+                    if (name)
+                        body.name = name;
+                    if (email)
+                        body.email = email;
+                    if (identification)
+                        body.identification = identification;
+                    if (birthday)
+                        body.birthday = birthday;
+                    if (phonesRaw)
+                        body.phones = phonesRaw.split(",").map((p) => p.trim()).filter(Boolean);
+                    if (tagsRaw)
+                        body.tags = tagsRaw.split(",").map((t) => t.trim()).filter(Boolean);
+                    const response = await this.helpers.httpRequest({
+                        method: "PUT",
+                        url: `${baseUrl}/api/client/${clientId}`,
+                        headers: { ...headers, "Content-Type": "application/json" },
+                        body,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "deleteClient") {
+                    const clientId = this.getNodeParameter("deleteClientId", i);
+                    const response = await this.helpers.httpRequest({
+                        method: "DELETE",
+                        url: `${baseUrl}/api/client/${clientId}`,
                         headers,
                         json: true,
                     });
