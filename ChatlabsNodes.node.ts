@@ -84,6 +84,7 @@ export class ChatlabsNodes implements INodeType {
           { name: "Obter", value: "get", action: "Obter chat por ID" },
           { name: "Listar Mensagens", value: "listMessages", action: "Listar mensagens do chat" },
           { name: "Obter Arquivo de Mensagem", value: "getMessageFile", action: "Obter URL do arquivo de mensagem" },
+          { name: "Enviar Mensagem", value: "sendMessage", action: "Enviar mensagem de texto" },
         ],
         default: "list",
       },
@@ -384,6 +385,33 @@ export class ChatlabsNodes implements INodeType {
         displayOptions: { show: { resource: ["chat"], operation: ["getMessageFile"] } },
         default: "",
         description: "ID da mensagem para obter a URL do arquivo",
+      },
+      {
+        displayName: "ID do Chat",
+        name: "sendMessageChatId",
+        type: "string",
+        required: true,
+        displayOptions: { show: { resource: ["chat"], operation: ["sendMessage"] } },
+        default: "",
+        description: "ID do chat para enviar a mensagem",
+      },
+      {
+        displayName: "Texto",
+        name: "sendMessageText",
+        type: "string",
+        required: true,
+        typeOptions: { rows: 4 },
+        displayOptions: { show: { resource: ["chat"], operation: ["sendMessage"] } },
+        default: "",
+        description: "Texto da mensagem",
+      },
+      {
+        displayName: "ID do Atendente",
+        name: "sendMessageAttendantId",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["sendMessage"] } },
+        default: "",
+        description: "ID do atendente que está enviando a mensagem (opcional)",
       },
 
       // ═══════════════════════════════════════════════════════════════════════
@@ -706,6 +734,14 @@ export class ChatlabsNodes implements INodeType {
             const qs: IDataObject = { perPage };
             if (cursor) qs.cursor = cursor;
             responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/chat/${id}/messages`, headers, qs, json: true });
+          }
+          if (operation === "sendMessage") {
+            const chatId = this.getNodeParameter("sendMessageChatId", i) as string;
+            const text = this.getNodeParameter("sendMessageText", i) as string;
+            const attendantId = this.getNodeParameter("sendMessageAttendantId", i) as string;
+            const body: IDataObject = { text };
+            if (attendantId) body.attendantId = attendantId;
+            responseData = await this.helpers.httpRequest({ method: "POST", url: `${baseUrl}/api/chat/${chatId}/message`, headers: headersJson, body, json: true });
           }
           if (operation === "getMessageFile") {
             const id = this.getNodeParameter("messageId", i) as string;
