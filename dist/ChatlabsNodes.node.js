@@ -102,6 +102,36 @@ class ChatlabsNodes {
                             description: "Remove uma etiqueta da plataforma",
                             action: "Deletar etiqueta",
                         },
+                        {
+                            name: "Listar Canais",
+                            value: "listChannels",
+                            description: "Lista todos os canais conectados da empresa (WhatsApp, Facebook, Instagram etc)",
+                            action: "Listar canais",
+                        },
+                        {
+                            name: "Listar Chats",
+                            value: "listChats",
+                            description: "Lista os chats da plataforma com filtros",
+                            action: "Listar chats",
+                        },
+                        {
+                            name: "Obter Chat",
+                            value: "getChat",
+                            description: "Obtém um chat pelo ID",
+                            action: "Obter chat",
+                        },
+                        {
+                            name: "Listar Mensagens do Chat",
+                            value: "listChatMessages",
+                            description: "Lista as mensagens de um chat",
+                            action: "Listar mensagens do chat",
+                        },
+                        {
+                            name: "Obter URL de Arquivo de Mensagem",
+                            value: "getChatMessageFile",
+                            description: "Obtém a URL do arquivo de uma mensagem",
+                            action: "Obter URL de arquivo de mensagem",
+                        },
                     ],
                     default: "listAttendants",
                 },
@@ -132,6 +162,239 @@ class ChatlabsNodes {
                     },
                     default: "",
                     description: "ID do atendente a ser obtido",
+                },
+                // === getChatMessageFile ===
+                {
+                    displayName: "ID da Mensagem",
+                    name: "messageFileId",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["getChatMessageFile"] } },
+                    default: "",
+                    description: "ID da mensagem para obter a URL do arquivo",
+                },
+                // === listChatMessages ===
+                {
+                    displayName: "ID do Chat",
+                    name: "chatMessagesId",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["listChatMessages"] } },
+                    default: "",
+                    description: "ID do chat para buscar as mensagens",
+                },
+                {
+                    displayName: "Por Página",
+                    name: "chatMessagesPerPage",
+                    type: "number",
+                    displayOptions: { show: { operation: ["listChatMessages"] } },
+                    typeOptions: { minValue: 1, maxValue: 100 },
+                    default: 10,
+                    description: "Número de mensagens por página",
+                },
+                {
+                    displayName: "Cursor",
+                    name: "chatMessagesCursor",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChatMessages"] } },
+                    default: "",
+                    description: "Cursor de paginação (opcional)",
+                },
+                // === getChat ===
+                {
+                    displayName: "ID do Chat",
+                    name: "getChatId",
+                    type: "string",
+                    required: true,
+                    displayOptions: { show: { operation: ["getChat"] } },
+                    default: "",
+                    description: "ID do chat a ser obtido",
+                },
+                // === listChats ===
+                {
+                    displayName: "Por Página",
+                    name: "chatPerPage",
+                    type: "number",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    typeOptions: { minValue: 1, maxValue: 100 },
+                    default: 10,
+                    description: "Número de chats por página",
+                },
+                {
+                    displayName: "Cursor",
+                    name: "chatCursor",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Cursor de paginação (opcional)",
+                },
+                {
+                    displayName: "Status (Step)",
+                    name: "chatStep",
+                    type: "multiOptions",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    options: [
+                        { name: "Bot", value: "BOT" },
+                        { name: "Pendente", value: "PENDING" },
+                        { name: "Ativo", value: "ACTIVE" },
+                        { name: "Concluído", value: "CONCLUDED" },
+                    ],
+                    default: [],
+                    description: "Filtrar por status do chat (opcional)",
+                },
+                {
+                    displayName: "Nome do Cliente",
+                    name: "chatClientName",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Filtrar por nome do cliente (opcional)",
+                },
+                {
+                    displayName: "Telefone do Cliente",
+                    name: "chatClientPhone",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Filtrar por telefone do cliente (opcional)",
+                },
+                {
+                    displayName: "Protocolo",
+                    name: "chatProtocol",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Filtrar por protocolo (opcional)",
+                },
+                {
+                    displayName: "ID do Atendente",
+                    name: "chatAttendantId",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Filtrar por ID do atendente (opcional)",
+                },
+                {
+                    displayName: "Nome do Atendente",
+                    name: "chatAttendantName",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Filtrar por nome do atendente (opcional)",
+                },
+                {
+                    displayName: "E-mail do Atendente",
+                    name: "chatAttendantEmail",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Filtrar por e-mail do atendente (opcional)",
+                },
+                {
+                    displayName: "Criado a Partir de",
+                    name: "chatCreatedAtStart",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    placeholder: "2026-01-01T00:00:00Z",
+                    description: "Data de início de criação (opcional)",
+                },
+                {
+                    displayName: "Criado Até",
+                    name: "chatCreatedAtEnd",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    placeholder: "2026-12-31T23:59:59Z",
+                    description: "Data de fim de criação (opcional)",
+                },
+                {
+                    displayName: "Fechado a Partir de",
+                    name: "chatClosedAtStart",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Data de início de fechamento (opcional)",
+                },
+                {
+                    displayName: "Fechado Até",
+                    name: "chatClosedAtEnd",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Data de fim de fechamento (opcional)",
+                },
+                {
+                    displayName: "Valor Última Mensagem",
+                    name: "chatLastMessageAtValue",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Data para filtro de última mensagem (opcional)",
+                },
+                {
+                    displayName: "Filtro Última Mensagem",
+                    name: "chatLastMessageAtFilter",
+                    type: "options",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    options: [
+                        { name: "Nenhum", value: "" },
+                        { name: "Menor que", value: "LESS_THAN" },
+                        { name: "Maior que", value: "GREATER_THAN" },
+                        { name: "Igual", value: "EQUAL" },
+                        { name: "Menor ou igual", value: "LESS_EQUAL" },
+                        { name: "Maior ou igual", value: "GREATER_EQUAL" },
+                    ],
+                    default: "",
+                    description: "Operador para filtro de última mensagem (opcional)",
+                },
+                {
+                    displayName: "Valor Última Mensagem do Cliente",
+                    name: "chatLastClientMessageAtValue",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Data para filtro de última mensagem do cliente (opcional)",
+                },
+                {
+                    displayName: "Filtro Última Mensagem do Cliente",
+                    name: "chatLastClientMessageAtFilter",
+                    type: "options",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    options: [
+                        { name: "Nenhum", value: "" },
+                        { name: "Menor que", value: "LESS_THAN" },
+                        { name: "Maior que", value: "GREATER_THAN" },
+                        { name: "Igual", value: "EQUAL" },
+                        { name: "Menor ou igual", value: "LESS_EQUAL" },
+                        { name: "Maior ou igual", value: "GREATER_EQUAL" },
+                    ],
+                    default: "",
+                    description: "Operador para filtro de última mensagem do cliente (opcional)",
+                },
+                {
+                    displayName: "Valor Última Mensagem do Admin",
+                    name: "chatLastAdminMessageAtValue",
+                    type: "string",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    default: "",
+                    description: "Data para filtro de última mensagem do admin (opcional)",
+                },
+                {
+                    displayName: "Filtro Última Mensagem do Admin",
+                    name: "chatLastAdminMessageAtFilter",
+                    type: "options",
+                    displayOptions: { show: { operation: ["listChats"] } },
+                    options: [
+                        { name: "Nenhum", value: "" },
+                        { name: "Menor que", value: "LESS_THAN" },
+                        { name: "Maior que", value: "GREATER_THAN" },
+                        { name: "Igual", value: "EQUAL" },
+                        { name: "Menor ou igual", value: "LESS_EQUAL" },
+                        { name: "Maior ou igual", value: "GREATER_EQUAL" },
+                    ],
+                    default: "",
+                    description: "Operador para filtro de última mensagem do admin (opcional)",
                 },
                 // === listTags ===
                 {
@@ -556,6 +819,90 @@ class ChatlabsNodes {
                     const response = await this.helpers.httpRequest({
                         method: "GET",
                         url: `${baseUrl}/api/attendant/${attendantId}`,
+                        headers,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "getChatMessageFile") {
+                    const messageId = this.getNodeParameter("messageFileId", i);
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/chat/message/${messageId}/file`,
+                        headers,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "listChatMessages") {
+                    const chatId = this.getNodeParameter("chatMessagesId", i);
+                    const perPage = this.getNodeParameter("chatMessagesPerPage", i);
+                    const cursor = this.getNodeParameter("chatMessagesCursor", i);
+                    const qs = { perPage };
+                    if (cursor)
+                        qs.cursor = cursor;
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/chat/${chatId}/messages`,
+                        headers,
+                        qs,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "getChat") {
+                    const chatId = this.getNodeParameter("getChatId", i);
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/chat/${chatId}`,
+                        headers,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "listChats") {
+                    const perPage = this.getNodeParameter("chatPerPage", i);
+                    const qs = { perPage };
+                    const strFields = [
+                        ["chatCursor", "cursor"],
+                        ["chatClientName", "clientName"],
+                        ["chatClientPhone", "clientPhone"],
+                        ["chatProtocol", "protocol"],
+                        ["chatAttendantId", "attendantId"],
+                        ["chatAttendantName", "attendantName"],
+                        ["chatAttendantEmail", "attendantEmail"],
+                        ["chatCreatedAtStart", "createdAtStart"],
+                        ["chatCreatedAtEnd", "createdAtEnd"],
+                        ["chatClosedAtStart", "closedAtStart"],
+                        ["chatClosedAtEnd", "closedAtEnd"],
+                        ["chatLastMessageAtValue", "lastMessageAtValue"],
+                        ["chatLastMessageAtFilter", "lastMessageAtFilter"],
+                        ["chatLastClientMessageAtValue", "lastClientMessageAtValue"],
+                        ["chatLastClientMessageAtFilter", "lastClientMessageAtFilter"],
+                        ["chatLastAdminMessageAtValue", "lastAdminMessageAtValue"],
+                        ["chatLastAdminMessageAtFilter", "lastAdminMessageAtFilter"],
+                    ];
+                    for (const [param, key] of strFields) {
+                        const val = this.getNodeParameter(param, i);
+                        if (val)
+                            qs[key] = val;
+                    }
+                    const steps = this.getNodeParameter("chatStep", i);
+                    if (steps && steps.length > 0)
+                        qs.step = steps.join(",");
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/chat`,
+                        headers,
+                        qs,
+                        json: true,
+                    });
+                    responseData = response;
+                }
+                if (operation === "listChannels") {
+                    const response = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/channel`,
                         headers,
                         json: true,
                     });
