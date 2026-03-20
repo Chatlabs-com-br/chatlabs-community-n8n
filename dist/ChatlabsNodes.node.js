@@ -75,9 +75,21 @@ class ChatlabsNodes {
                     options: [
                         { name: "Listar", value: "list", action: "Listar chats" },
                         { name: "Obter", value: "get", action: "Obter chat por ID" },
-                        { name: "Listar Mensagens", value: "listMessages", action: "Listar mensagens do chat" },
-                        { name: "Obter Arquivo de Mensagem", value: "getMessageFile", action: "Obter URL do arquivo de mensagem" },
-                        { name: "Enviar Mensagem", value: "sendMessage", action: "Enviar mensagem de texto" },
+                        {
+                            name: "Listar Mensagens",
+                            value: "listMessages",
+                            action: "Listar mensagens do chat",
+                        },
+                        {
+                            name: "Obter Arquivo de Mensagem",
+                            value: "getMessageFile",
+                            action: "Obter URL do arquivo de mensagem",
+                        },
+                        {
+                            name: "Enviar Mensagem",
+                            value: "sendMessage",
+                            action: "Enviar mensagem de texto",
+                        },
                     ],
                     default: "list",
                 },
@@ -133,7 +145,9 @@ class ChatlabsNodes {
                     displayName: "Por Página",
                     name: "perPage",
                     type: "number",
-                    displayOptions: { show: { resource: ["attendant"], operation: ["list"] } },
+                    displayOptions: {
+                        show: { resource: ["attendant"], operation: ["list"] },
+                    },
                     typeOptions: { minValue: 1, maxValue: 100 },
                     default: 10,
                     description: "Número de atendentes por página",
@@ -142,7 +156,9 @@ class ChatlabsNodes {
                     displayName: "Campo de Pesquisa",
                     name: "field",
                     type: "options",
-                    displayOptions: { show: { resource: ["attendant"], operation: ["list"] } },
+                    displayOptions: {
+                        show: { resource: ["attendant"], operation: ["list"] },
+                    },
                     options: [
                         { name: "Nenhum", value: "" },
                         { name: "Nome Completo", value: "FULLNAME" },
@@ -155,7 +171,13 @@ class ChatlabsNodes {
                     displayName: "Valor da Pesquisa",
                     name: "searchValue",
                     type: "string",
-                    displayOptions: { show: { resource: ["attendant"], operation: ["list"], field: ["FULLNAME", "EMAIL"] } },
+                    displayOptions: {
+                        show: {
+                            resource: ["attendant"],
+                            operation: ["list"],
+                            field: ["FULLNAME", "EMAIL"],
+                        },
+                    },
                     default: "",
                     description: "Valor a ser pesquisado",
                 },
@@ -164,7 +186,9 @@ class ChatlabsNodes {
                     name: "attendantId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["attendant"], operation: ["get"] } },
+                    displayOptions: {
+                        show: { resource: ["attendant"], operation: ["get"] },
+                    },
                     default: "",
                     description: "ID do atendente",
                 },
@@ -176,7 +200,9 @@ class ChatlabsNodes {
                     name: "chatId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["chat"], operation: ["get", "listMessages"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["get", "listMessages"] },
+                    },
                     default: "",
                     description: "ID do chat",
                 },
@@ -184,7 +210,9 @@ class ChatlabsNodes {
                     displayName: "Por Página",
                     name: "perPage",
                     type: "number",
-                    displayOptions: { show: { resource: ["chat"], operation: ["list", "listMessages"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["list", "listMessages"] },
+                    },
                     typeOptions: { minValue: 1, maxValue: 100 },
                     default: 10,
                     description: "Número de itens por página",
@@ -193,7 +221,9 @@ class ChatlabsNodes {
                     displayName: "Cursor",
                     name: "cursor",
                     type: "string",
-                    displayOptions: { show: { resource: ["chat"], operation: ["list", "listMessages"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["list", "listMessages"] },
+                    },
                     default: "",
                     description: "Cursor de paginação (opcional)",
                 },
@@ -370,7 +400,9 @@ class ChatlabsNodes {
                     name: "messageId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["chat"], operation: ["getMessageFile"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["getMessageFile"] },
+                    },
                     default: "",
                     description: "ID da mensagem para obter a URL do arquivo",
                 },
@@ -379,7 +411,9 @@ class ChatlabsNodes {
                     name: "sendMessageChatId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["chat"], operation: ["sendMessage"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["sendMessage"] },
+                    },
                     default: "",
                     description: "ID do chat para enviar a mensagem",
                 },
@@ -389,7 +423,9 @@ class ChatlabsNodes {
                     type: "string",
                     required: true,
                     typeOptions: { rows: 4 },
-                    displayOptions: { show: { resource: ["chat"], operation: ["sendMessage"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["sendMessage"] },
+                    },
                     default: "",
                     description: "Texto da mensagem",
                 },
@@ -397,9 +433,36 @@ class ChatlabsNodes {
                     displayName: "ID do Atendente",
                     name: "sendMessageAttendantId",
                     type: "string",
-                    displayOptions: { show: { resource: ["chat"], operation: ["sendMessage"] } },
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["sendMessage"] },
+                    },
                     default: "",
                     description: "ID do atendente que está enviando a mensagem (opcional)",
+                },
+                {
+                    displayName: "Enviar Arquivo",
+                    name: "sendFile",
+                    type: "boolean",
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["sendMessage"] },
+                    },
+                    default: false,
+                    description: "Habilita o envio de um arquivo junto à mensagem",
+                },
+                {
+                    displayName: "Binary Property",
+                    name: "binaryPropertyName",
+                    type: "string",
+                    required: true,
+                    displayOptions: {
+                        show: {
+                            resource: ["chat"],
+                            operation: ["sendMessage"],
+                            sendFile: [true],
+                        },
+                    },
+                    default: "data",
+                    description: "Nome da propriedade binary do item que contém o arquivo",
                 },
                 // ═══════════════════════════════════════════════════════════════════════
                 // CAMPOS: CLIENTE
@@ -433,7 +496,13 @@ class ChatlabsNodes {
                     displayName: "Valor da Pesquisa",
                     name: "clientSearchValue",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["list"], clientField: ["NAME", "EMAIL", "IDENTIFICATION", "PHONE", "TAGS"] } },
+                    displayOptions: {
+                        show: {
+                            resource: ["client"],
+                            operation: ["list"],
+                            clientField: ["NAME", "EMAIL", "IDENTIFICATION", "PHONE", "TAGS"],
+                        },
+                    },
                     default: "",
                     description: "Valor a ser pesquisado",
                 },
@@ -442,7 +511,12 @@ class ChatlabsNodes {
                     name: "clientId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["client"], operation: ["get", "update", "delete"] } },
+                    displayOptions: {
+                        show: {
+                            resource: ["client"],
+                            operation: ["get", "update", "delete"],
+                        },
+                    },
                     default: "",
                     description: "ID do cliente",
                 },
@@ -451,7 +525,9 @@ class ChatlabsNodes {
                     name: "clientName",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["client"], operation: ["create"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["create"] },
+                    },
                     default: "",
                     description: "Nome do cliente",
                 },
@@ -459,7 +535,9 @@ class ChatlabsNodes {
                     displayName: "Nome",
                     name: "clientName",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["update"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["update"] },
+                    },
                     default: "",
                     description: "Nome do cliente (opcional)",
                 },
@@ -467,7 +545,9 @@ class ChatlabsNodes {
                     displayName: "Telefones",
                     name: "clientPhones",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["create", "update"] },
+                    },
                     default: "",
                     description: "Telefones separados por vírgula (ex: +55 53 99999-9999, +55 11 98888-7777)",
                 },
@@ -475,7 +555,9 @@ class ChatlabsNodes {
                     displayName: "E-mail",
                     name: "clientEmail",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["create", "update"] },
+                    },
                     default: "",
                     description: "E-mail do cliente (opcional)",
                 },
@@ -483,7 +565,9 @@ class ChatlabsNodes {
                     displayName: "Identificação",
                     name: "clientIdentification",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["create", "update"] },
+                    },
                     default: "",
                     description: "CPF/CNPJ ou outro identificador (opcional)",
                 },
@@ -491,7 +575,9 @@ class ChatlabsNodes {
                     displayName: "Data de Nascimento",
                     name: "clientBirthday",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["create", "update"] },
+                    },
                     default: "",
                     placeholder: "DD/MM/AAAA",
                     description: "Data de nascimento no formato DD/MM/AAAA (opcional)",
@@ -500,7 +586,9 @@ class ChatlabsNodes {
                     displayName: "Tags",
                     name: "clientTags",
                     type: "string",
-                    displayOptions: { show: { resource: ["client"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["client"], operation: ["create", "update"] },
+                    },
                     default: "",
                     description: "Tags separadas por vírgula (opcional)",
                 },
@@ -529,7 +617,9 @@ class ChatlabsNodes {
                     name: "tagId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["tag"], operation: ["get", "update", "delete"] } },
+                    displayOptions: {
+                        show: { resource: ["tag"], operation: ["get", "update", "delete"] },
+                    },
                     default: "",
                     description: "ID da etiqueta",
                 },
@@ -570,7 +660,9 @@ class ChatlabsNodes {
                     displayName: "Nome Completo",
                     name: "tagFullname",
                     type: "string",
-                    displayOptions: { show: { resource: ["tag"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["tag"], operation: ["create", "update"] },
+                    },
                     default: "",
                     description: "Nome completo da etiqueta (opcional)",
                 },
@@ -578,7 +670,9 @@ class ChatlabsNodes {
                     displayName: "Código",
                     name: "tagCode",
                     type: "string",
-                    displayOptions: { show: { resource: ["tag"], operation: ["create", "update"] } },
+                    displayOptions: {
+                        show: { resource: ["tag"], operation: ["create", "update"] },
+                    },
                     default: "",
                     description: "Código da etiqueta (opcional)",
                 },
@@ -589,7 +683,9 @@ class ChatlabsNodes {
                     displayName: "Por Página",
                     name: "perPage",
                     type: "number",
-                    displayOptions: { show: { resource: ["department"], operation: ["list"] } },
+                    displayOptions: {
+                        show: { resource: ["department"], operation: ["list"] },
+                    },
                     typeOptions: { minValue: 1, maxValue: 100 },
                     default: 10,
                     description: "Número de setores por página",
@@ -598,7 +694,9 @@ class ChatlabsNodes {
                     displayName: "Cursor",
                     name: "cursor",
                     type: "string",
-                    displayOptions: { show: { resource: ["department"], operation: ["list"] } },
+                    displayOptions: {
+                        show: { resource: ["department"], operation: ["list"] },
+                    },
                     default: "",
                     description: "Cursor de paginação (opcional)",
                 },
@@ -606,7 +704,9 @@ class ChatlabsNodes {
                     displayName: "Campo de Pesquisa",
                     name: "deptField",
                     type: "options",
-                    displayOptions: { show: { resource: ["department"], operation: ["list"] } },
+                    displayOptions: {
+                        show: { resource: ["department"], operation: ["list"] },
+                    },
                     options: [
                         { name: "Nenhum", value: "" },
                         { name: "Nome", value: "NAME" },
@@ -618,7 +718,13 @@ class ChatlabsNodes {
                     displayName: "Valor da Pesquisa",
                     name: "deptValue",
                     type: "string",
-                    displayOptions: { show: { resource: ["department"], operation: ["list"], deptField: ["NAME"] } },
+                    displayOptions: {
+                        show: {
+                            resource: ["department"],
+                            operation: ["list"],
+                            deptField: ["NAME"],
+                        },
+                    },
                     default: "",
                     description: "Valor a ser pesquisado",
                 },
@@ -627,7 +733,9 @@ class ChatlabsNodes {
                     name: "departmentId",
                     type: "string",
                     required: true,
-                    displayOptions: { show: { resource: ["department"], operation: ["get"] } },
+                    displayOptions: {
+                        show: { resource: ["department"], operation: ["get"] },
+                    },
                     default: "",
                     description: "ID do setor",
                 },
@@ -655,22 +763,40 @@ class ChatlabsNodes {
                     if (operation === "list") {
                         const perPage = this.getNodeParameter("perPage", i);
                         const field = this.getNodeParameter("field", i);
-                        const searchValue = field ? this.getNodeParameter("searchValue", i) : "";
+                        const searchValue = field
+                            ? this.getNodeParameter("searchValue", i)
+                            : "";
                         const qs = { perPage };
                         if (field && searchValue) {
                             qs.field = field;
                             qs.value = searchValue;
                         }
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/attendant`, headers, qs, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/attendant`,
+                            headers,
+                            qs,
+                            json: true,
+                        });
                     }
                     if (operation === "get") {
                         const id = this.getNodeParameter("attendantId", i);
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/attendant/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/attendant/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                 }
                 // ─── CANAL ──────────────────────────────────────────────────────────
                 if (resource === "channel") {
-                    responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/channel`, headers, json: true });
+                    responseData = await this.helpers.httpRequest({
+                        method: "GET",
+                        url: `${baseUrl}/api/channel`,
+                        headers,
+                        json: true,
+                    });
                 }
                 // ─── CHAT ───────────────────────────────────────────────────────────
                 if (resource === "chat") {
@@ -704,11 +830,22 @@ class ChatlabsNodes {
                         const steps = this.getNodeParameter("chatStep", i);
                         if (steps && steps.length > 0)
                             qs.step = steps.join(",");
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/chat`, headers, qs, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/chat`,
+                            headers,
+                            qs,
+                            json: true,
+                        });
                     }
                     if (operation === "get") {
                         const id = this.getNodeParameter("chatId", i);
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/chat/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/chat/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                     if (operation === "listMessages") {
                         const id = this.getNodeParameter("chatId", i);
@@ -717,20 +854,57 @@ class ChatlabsNodes {
                         const qs = { perPage };
                         if (cursor)
                             qs.cursor = cursor;
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/chat/${id}/messages`, headers, qs, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/chat/${id}/messages`,
+                            headers,
+                            qs,
+                            json: true,
+                        });
                     }
                     if (operation === "sendMessage") {
                         const chatId = this.getNodeParameter("sendMessageChatId", i);
                         const text = this.getNodeParameter("sendMessageText", i);
                         const attendantId = this.getNodeParameter("sendMessageAttendantId", i);
-                        const body = { text };
-                        if (attendantId)
-                            body.attendantId = attendantId;
-                        responseData = await this.helpers.httpRequest({ method: "POST", url: `${baseUrl}/api/chat/${chatId}/message`, headers: headersJson, body, json: true });
+                        const sendFile = this.getNodeParameter("sendFile", i);
+                        if (sendFile) {
+                            const binaryPropertyName = this.getNodeParameter("binaryPropertyName", i);
+                            const binaryData = this.helpers.assertBinaryData(i, binaryPropertyName);
+                            const buffer = await this.helpers.getBinaryDataBuffer(i, binaryPropertyName);
+                            const formData = new FormData();
+                            if (attendantId)
+                                formData.append("attendantId", attendantId);
+                            if (text)
+                                formData.append("text", text);
+                            formData.append("file", new Blob([buffer], { type: binaryData.mimeType }), binaryData.fileName);
+                            responseData = await this.helpers.httpRequest({
+                                method: "POST",
+                                url: `${baseUrl}/api/chat/${chatId}/message`,
+                                headers,
+                                body: formData,
+                            });
+                        }
+                        else {
+                            const body = { text };
+                            if (attendantId)
+                                body.attendantId = attendantId;
+                            responseData = await this.helpers.httpRequest({
+                                method: "POST",
+                                url: `${baseUrl}/api/chat/${chatId}/message`,
+                                headers: headersJson,
+                                body,
+                                json: true,
+                            });
+                        }
                     }
                     if (operation === "getMessageFile") {
                         const id = this.getNodeParameter("messageId", i);
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/chat/message/${id}/file`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/chat/message/${id}/file`,
+                            headers,
+                            json: true,
+                        });
                     }
                 }
                 // ─── CLIENTE ────────────────────────────────────────────────────────
@@ -738,17 +912,30 @@ class ChatlabsNodes {
                     if (operation === "list") {
                         const perPage = this.getNodeParameter("perPage", i);
                         const field = this.getNodeParameter("clientField", i);
-                        const searchValue = field ? this.getNodeParameter("clientSearchValue", i) : "";
+                        const searchValue = field
+                            ? this.getNodeParameter("clientSearchValue", i)
+                            : "";
                         const qs = { perPage };
                         if (field && searchValue) {
                             qs.field = field;
                             qs.value = searchValue;
                         }
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/client`, headers, qs, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/client`,
+                            headers,
+                            qs,
+                            json: true,
+                        });
                     }
                     if (operation === "get") {
                         const id = this.getNodeParameter("clientId", i);
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/client/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/client/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                     if (operation === "create") {
                         const name = this.getNodeParameter("clientName", i);
@@ -757,8 +944,18 @@ class ChatlabsNodes {
                         const birthday = this.getNodeParameter("clientBirthday", i);
                         const phonesRaw = this.getNodeParameter("clientPhones", i);
                         const tagsRaw = this.getNodeParameter("clientTags", i);
-                        const phones = phonesRaw ? phonesRaw.split(",").map((p) => p.trim()).filter(Boolean) : [];
-                        const tags = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
+                        const phones = phonesRaw
+                            ? phonesRaw
+                                .split(",")
+                                .map((p) => p.trim())
+                                .filter(Boolean)
+                            : [];
+                        const tags = tagsRaw
+                            ? tagsRaw
+                                .split(",")
+                                .map((t) => t.trim())
+                                .filter(Boolean)
+                            : [];
                         const body = { name, phones, tags };
                         if (email)
                             body.email = email;
@@ -766,7 +963,13 @@ class ChatlabsNodes {
                             body.identification = identification;
                         if (birthday)
                             body.birthday = birthday;
-                        responseData = await this.helpers.httpRequest({ method: "POST", url: `${baseUrl}/api/client`, headers: headersJson, body, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "POST",
+                            url: `${baseUrl}/api/client`,
+                            headers: headersJson,
+                            body,
+                            json: true,
+                        });
                     }
                     if (operation === "update") {
                         const id = this.getNodeParameter("clientId", i);
@@ -786,14 +989,31 @@ class ChatlabsNodes {
                         if (birthday)
                             body.birthday = birthday;
                         if (phonesRaw)
-                            body.phones = phonesRaw.split(",").map((p) => p.trim()).filter(Boolean);
+                            body.phones = phonesRaw
+                                .split(",")
+                                .map((p) => p.trim())
+                                .filter(Boolean);
                         if (tagsRaw)
-                            body.tags = tagsRaw.split(",").map((t) => t.trim()).filter(Boolean);
-                        responseData = await this.helpers.httpRequest({ method: "PUT", url: `${baseUrl}/api/client/${id}`, headers: headersJson, body, json: true });
+                            body.tags = tagsRaw
+                                .split(",")
+                                .map((t) => t.trim())
+                                .filter(Boolean);
+                        responseData = await this.helpers.httpRequest({
+                            method: "PUT",
+                            url: `${baseUrl}/api/client/${id}`,
+                            headers: headersJson,
+                            body,
+                            json: true,
+                        });
                     }
                     if (operation === "delete") {
                         const id = this.getNodeParameter("clientId", i);
-                        responseData = await this.helpers.httpRequest({ method: "DELETE", url: `${baseUrl}/api/client/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "DELETE",
+                            url: `${baseUrl}/api/client/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                 }
                 // ─── ETIQUETA ───────────────────────────────────────────────────────
@@ -804,11 +1024,22 @@ class ChatlabsNodes {
                         const qs = { perPage };
                         if (cursor)
                             qs.cursor = cursor;
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/client-tag`, headers, qs, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/client-tag`,
+                            headers,
+                            qs,
+                            json: true,
+                        });
                     }
                     if (operation === "get") {
                         const id = this.getNodeParameter("tagId", i);
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/client-tag/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/client-tag/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                     if (operation === "create") {
                         const name = this.getNodeParameter("tagName", i);
@@ -820,7 +1051,13 @@ class ChatlabsNodes {
                             body.fullname = fullname;
                         if (code)
                             body.code = code;
-                        responseData = await this.helpers.httpRequest({ method: "POST", url: `${baseUrl}/api/client-tag`, headers: headersJson, body, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "POST",
+                            url: `${baseUrl}/api/client-tag`,
+                            headers: headersJson,
+                            body,
+                            json: true,
+                        });
                     }
                     if (operation === "update") {
                         const id = this.getNodeParameter("tagId", i);
@@ -837,11 +1074,22 @@ class ChatlabsNodes {
                             body.fullname = fullname;
                         if (code)
                             body.code = code;
-                        responseData = await this.helpers.httpRequest({ method: "PATCH", url: `${baseUrl}/api/client-tag/${id}`, headers: headersJson, body, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "PATCH",
+                            url: `${baseUrl}/api/client-tag/${id}`,
+                            headers: headersJson,
+                            body,
+                            json: true,
+                        });
                     }
                     if (operation === "delete") {
                         const id = this.getNodeParameter("tagId", i);
-                        responseData = await this.helpers.httpRequest({ method: "DELETE", url: `${baseUrl}/api/client-tag/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "DELETE",
+                            url: `${baseUrl}/api/client-tag/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                 }
                 // ─── SETOR ──────────────────────────────────────────────────────────
@@ -850,7 +1098,9 @@ class ChatlabsNodes {
                         const perPage = this.getNodeParameter("perPage", i);
                         const cursor = this.getNodeParameter("cursor", i);
                         const field = this.getNodeParameter("deptField", i);
-                        const value = field ? this.getNodeParameter("deptValue", i) : "";
+                        const value = field
+                            ? this.getNodeParameter("deptValue", i)
+                            : "";
                         const qs = { perPage };
                         if (cursor)
                             qs.cursor = cursor;
@@ -858,18 +1108,32 @@ class ChatlabsNodes {
                             qs.field = field;
                             qs.value = value;
                         }
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/department`, headers, qs, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/department`,
+                            headers,
+                            qs,
+                            json: true,
+                        });
                     }
                     if (operation === "get") {
                         const id = this.getNodeParameter("departmentId", i);
-                        responseData = await this.helpers.httpRequest({ method: "GET", url: `${baseUrl}/api/department/${id}`, headers, json: true });
+                        responseData = await this.helpers.httpRequest({
+                            method: "GET",
+                            url: `${baseUrl}/api/department/${id}`,
+                            headers,
+                            json: true,
+                        });
                     }
                 }
                 returnData.push({ json: responseData, pairedItem: { item: i } });
             }
             catch (error) {
                 if (this.continueOnFail()) {
-                    returnData.push({ json: { error: error.message }, pairedItem: { item: i } });
+                    returnData.push({
+                        json: { error: error.message },
+                        pairedItem: { item: i },
+                    });
                     continue;
                 }
                 throw new n8n_workflow_1.NodeApiError(this.getNode(), error, { itemIndex: i });
