@@ -1,4 +1,14 @@
 {
+  "author": "Chatlabs",
+  "homepage": "https://www.chatlabs.com.br",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Chatlabs-com-br/chatlabs-community-n8n"
+  },
+  "files": [
+    "dist",
+    "chatlabs.png"
+  ],
   "name": "n8n-nodes-chatlabs",
   "version": "1.0.0",
   "description": "Nodes do Chatlabs para n8n",
@@ -21,7 +31,6 @@
       "dist/ChatlabsTrigger.node.js"
     ]
   },
-  "author": "",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.9.3"
