@@ -10,7 +10,7 @@
     "chatlabs.png"
   ],
   "name": "n8n-nodes-chatlabs",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Nodes do Chatlabs para n8n",
   "keywords": [
     "n8n-community-node-package",
