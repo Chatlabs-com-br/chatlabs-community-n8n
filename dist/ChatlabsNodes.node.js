@@ -95,6 +95,11 @@ class ChatlabsNodes {
                             value: "transferChat",
                             action: "Transferir chat para atendente ou departamento",
                         },
+                        {
+                            name: "Encerrar",
+                            value: "closeChat",
+                            action: "Encerrar chat ativo",
+                        },
                     ],
                     default: "list",
                 },
@@ -613,6 +618,38 @@ class ChatlabsNodes {
                     default: false,
                     description: "Quando ativado, envia mensagem automática ao cliente informando a transferência",
                 },
+                // ─── CAMPOS: ENCERRAR CHAT ───────────────────────────────────────────
+                {
+                    displayName: "ID do Chat",
+                    name: "closeChatId",
+                    type: "string",
+                    required: true,
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["closeChat"] },
+                    },
+                    default: "",
+                    description: "ID do chat a ser encerrado",
+                },
+                {
+                    displayName: "Enviar Avaliação ao Cliente",
+                    name: "sendFeedbackToCustomer",
+                    type: "boolean",
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["closeChat"] },
+                    },
+                    default: false,
+                    description: "Envia avaliação de atendimento ao cliente ao encerrar",
+                },
+                {
+                    displayName: "Enviar Mensagem Final",
+                    name: "sendFinalMessage",
+                    type: "boolean",
+                    displayOptions: {
+                        show: { resource: ["chat"], operation: ["closeChat"] },
+                    },
+                    default: false,
+                    description: "Envia a mensagem de encerramento configurada na empresa ao cliente",
+                },
                 // ═══════════════════════════════════════════════════════════════════════
                 // CAMPOS: CLIENTE
                 // ═══════════════════════════════════════════════════════════════════════
@@ -1091,6 +1128,19 @@ class ChatlabsNodes {
                         responseData = await this.helpers.httpRequest({
                             method: "POST",
                             url: `${baseUrl}/api/chat/${chatId}/transfer`,
+                            headers: headersJson,
+                            body,
+                            json: true,
+                        });
+                    }
+                    if (operation === "closeChat") {
+                        const chatId = this.getNodeParameter("closeChatId", i);
+                        const sendFeedbackToCustomer = this.getNodeParameter("sendFeedbackToCustomer", i);
+                        const sendFinalMessage = this.getNodeParameter("sendFinalMessage", i);
+                        const body = { sendFeedbackToCustomer, sendFinalMessage };
+                        responseData = await this.helpers.httpRequest({
+                            method: "POST",
+                            url: `${baseUrl}/api/chat/${chatId}/close`,
                             headers: headersJson,
                             body,
                             json: true,
