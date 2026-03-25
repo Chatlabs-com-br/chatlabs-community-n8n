@@ -1,0 +1,234 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fields = void 0;
+exports.execute = execute;
+exports.fields = [
+    {
+        displayName: "Por Página",
+        name: "perPage",
+        type: "number",
+        displayOptions: {
+            show: { resource: ["chat"], operation: ["list", "listMessages"] },
+        },
+        typeOptions: { minValue: 1, maxValue: 100 },
+        default: 10,
+        description: "Número de itens por página",
+    },
+    {
+        displayName: "Cursor",
+        name: "cursor",
+        type: "string",
+        displayOptions: {
+            show: { resource: ["chat"], operation: ["list", "listMessages"] },
+        },
+        default: "",
+        description: "Cursor de paginação (opcional)",
+    },
+    {
+        displayName: "Status",
+        name: "chatStep",
+        type: "multiOptions",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        options: [
+            { name: "Bot", value: "BOT" },
+            { name: "Pendente", value: "PENDING" },
+            { name: "Ativo", value: "ACTIVE" },
+            { name: "Concluído", value: "CONCLUDED" },
+        ],
+        default: [],
+        description: "Filtrar por status do chat (opcional)",
+    },
+    {
+        displayName: "Nome do Cliente",
+        name: "chatClientName",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Filtrar por nome do cliente (opcional)",
+    },
+    {
+        displayName: "Telefone do Cliente",
+        name: "chatClientPhone",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Filtrar por telefone do cliente (opcional)",
+    },
+    {
+        displayName: "Protocolo",
+        name: "chatProtocol",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Filtrar por protocolo (opcional)",
+    },
+    {
+        displayName: "ID do Atendente",
+        name: "chatAttendantId",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Filtrar por ID do atendente (opcional)",
+    },
+    {
+        displayName: "Nome do Atendente",
+        name: "chatAttendantName",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Filtrar por nome do atendente (opcional)",
+    },
+    {
+        displayName: "E-mail do Atendente",
+        name: "chatAttendantEmail",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Filtrar por e-mail do atendente (opcional)",
+    },
+    {
+        displayName: "Criado a Partir de",
+        name: "chatCreatedAtStart",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        placeholder: "2026-01-01T00:00:00Z",
+        description: "Data de início de criação (opcional)",
+    },
+    {
+        displayName: "Criado Até",
+        name: "chatCreatedAtEnd",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        placeholder: "2026-12-31T23:59:59Z",
+        description: "Data de fim de criação (opcional)",
+    },
+    {
+        displayName: "Fechado a Partir de",
+        name: "chatClosedAtStart",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Data de início de fechamento (opcional)",
+    },
+    {
+        displayName: "Fechado Até",
+        name: "chatClosedAtEnd",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Data de fim de fechamento (opcional)",
+    },
+    {
+        displayName: "Valor Última Mensagem",
+        name: "chatLastMessageAtValue",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Data para filtro de última mensagem (opcional)",
+    },
+    {
+        displayName: "Filtro Última Mensagem",
+        name: "chatLastMessageAtFilter",
+        type: "options",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        options: [
+            { name: "Nenhum", value: "" },
+            { name: "Menor que", value: "LESS_THAN" },
+            { name: "Maior que", value: "GREATER_THAN" },
+            { name: "Igual", value: "EQUAL" },
+            { name: "Menor ou igual", value: "LESS_EQUAL" },
+            { name: "Maior ou igual", value: "GREATER_EQUAL" },
+        ],
+        default: "",
+        description: "Operador para filtro de última mensagem (opcional)",
+    },
+    {
+        displayName: "Valor Última Mensagem do Cliente",
+        name: "chatLastClientMessageAtValue",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Data para filtro de última mensagem do cliente (opcional)",
+    },
+    {
+        displayName: "Filtro Última Mensagem do Cliente",
+        name: "chatLastClientMessageAtFilter",
+        type: "options",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        options: [
+            { name: "Nenhum", value: "" },
+            { name: "Menor que", value: "LESS_THAN" },
+            { name: "Maior que", value: "GREATER_THAN" },
+            { name: "Igual", value: "EQUAL" },
+            { name: "Menor ou igual", value: "LESS_EQUAL" },
+            { name: "Maior ou igual", value: "GREATER_EQUAL" },
+        ],
+        default: "",
+        description: "Operador para filtro de última mensagem do cliente (opcional)",
+    },
+    {
+        displayName: "Valor Última Mensagem do Admin",
+        name: "chatLastAdminMessageAtValue",
+        type: "string",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        default: "",
+        description: "Data para filtro de última mensagem do admin (opcional)",
+    },
+    {
+        displayName: "Filtro Última Mensagem do Admin",
+        name: "chatLastAdminMessageAtFilter",
+        type: "options",
+        displayOptions: { show: { resource: ["chat"], operation: ["list"] } },
+        options: [
+            { name: "Nenhum", value: "" },
+            { name: "Menor que", value: "LESS_THAN" },
+            { name: "Maior que", value: "GREATER_THAN" },
+            { name: "Igual", value: "EQUAL" },
+            { name: "Menor ou igual", value: "LESS_EQUAL" },
+            { name: "Maior ou igual", value: "GREATER_EQUAL" },
+        ],
+        default: "",
+        description: "Operador para filtro de última mensagem do admin (opcional)",
+    },
+];
+async function execute(context, i, baseUrl, headers) {
+    const perPage = context.getNodeParameter("perPage", i);
+    const qs = { perPage };
+    const strFields = [
+        ["cursor", "cursor"],
+        ["chatClientName", "clientName"],
+        ["chatClientPhone", "clientPhone"],
+        ["chatProtocol", "protocol"],
+        ["chatAttendantId", "attendantId"],
+        ["chatAttendantName", "attendantName"],
+        ["chatAttendantEmail", "attendantEmail"],
+        ["chatCreatedAtStart", "createdAtStart"],
+        ["chatCreatedAtEnd", "createdAtEnd"],
+        ["chatClosedAtStart", "closedAtStart"],
+        ["chatClosedAtEnd", "closedAtEnd"],
+        ["chatLastMessageAtValue", "lastMessageAtValue"],
+        ["chatLastMessageAtFilter", "lastMessageAtFilter"],
+        ["chatLastClientMessageAtValue", "lastClientMessageAtValue"],
+        ["chatLastClientMessageAtFilter", "lastClientMessageAtFilter"],
+        ["chatLastAdminMessageAtValue", "lastAdminMessageAtValue"],
+        ["chatLastAdminMessageAtFilter", "lastAdminMessageAtFilter"],
+    ];
+    for (const [param, key] of strFields) {
+        const val = context.getNodeParameter(param, i);
+        if (val)
+            qs[key] = val;
+    }
+    const steps = context.getNodeParameter("chatStep", i);
+    if (steps && steps.length > 0)
+        qs.step = steps.join(",");
+    return context.helpers.httpRequest({
+        method: "GET",
+        url: `${baseUrl}/api/chat`,
+        headers,
+        qs,
+        json: true,
+    });
+}
+//# sourceMappingURL=list.js.map
