@@ -51,6 +51,21 @@ function safeStringify(value: unknown): string {
   }
 }
 
+function statusCodeOf(error: unknown): number | undefined {
+  const e = error as
+    | {
+        httpCode?: string | number;
+        statusCode?: number;
+        response?: { status?: number };
+        message?: string;
+      }
+    | undefined;
+  const direct = Number(e?.response?.status ?? e?.statusCode ?? e?.httpCode);
+  if (direct) return direct;
+  const match = /status code (\d{3})/.exec(String(e?.message ?? ""));
+  return match ? Number(match[1]) : undefined;
+}
+
 function isTagNotFound(error: unknown): boolean {
   const e = error as Record<string, unknown> | undefined;
   const text = [e?.message, e?.description, safeStringify(e)]
@@ -63,7 +78,7 @@ export async function execute(
   context: IExecuteFunctions,
   i: number,
   baseUrl: string,
-  _headers: Record<string, string>,
+  headers: Record<string, string>,
   headersJson: Record<string, string>,
   action: "add-tag" | "remove-tag",
 ): Promise<IDataObject> {
@@ -82,8 +97,16 @@ export async function execute(
       json: true,
     });
   } catch (error) {
-    if (isTagNotFound(error)) {
-      return { tagNotFound: true, clientId, [by === "id" ? "tagId" : "tagName"]: value };
+    const notFound = { tagNotFound: true, clientId, [by === "id" ? "tagId" : "tagName"]: value };
+    if (isTagNotFound(error)) return notFound;
+    // O n8n nem sempre entrega o corpo do erro. Um 404 pode ser da etiqueta ou do
+    // cliente, então confirma se o cliente existe antes de dizer que falta a etiqueta.
+    if (statusCodeOf(error) === 404) {
+      const clientExists = await context.helpers
+        .httpRequest({ method: "GET", url: `${baseUrl}/api/client/${clientId}`, headers, json: true })
+        .then(() => true)
+        .catch(() => false);
+      if (clientExists) return notFound;
     }
     throw error;
   }
