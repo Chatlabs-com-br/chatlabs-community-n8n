@@ -4,6 +4,7 @@ import * as get from "./get";
 import * as create from "./create";
 import * as update from "./update";
 import * as del from "./delete";
+import * as clientTag from "./clientTag";
 
 export const operationOptions: INodeProperties = {
   displayName: "Operação",
@@ -17,6 +18,8 @@ export const operationOptions: INodeProperties = {
     { name: "Criar", value: "create", action: "Criar cliente" },
     { name: "Atualizar", value: "update", action: "Atualizar cliente" },
     { name: "Deletar", value: "delete", action: "Deletar cliente" },
+    { name: "Adicionar Etiqueta", value: "addTag", action: "Adicionar etiqueta ao cliente" },
+    { name: "Remover Etiqueta", value: "removeTag", action: "Remover etiqueta do cliente" },
   ],
   default: "list",
 };
@@ -27,6 +30,7 @@ export const fields: INodeProperties[] = [
   ...create.fields,
   ...update.fields,
   ...del.fields,
+  ...clientTag.fields,
 ];
 
 export async function execute(
@@ -42,5 +46,7 @@ export async function execute(
   if (operation === "create") return create.execute(context, i, baseUrl, headers, headersJson);
   if (operation === "update") return update.execute(context, i, baseUrl, headers, headersJson);
   if (operation === "delete") return del.execute(context, i, baseUrl, headers);
+  if (operation === "addTag") return clientTag.execute(context, i, baseUrl, headers, headersJson, "add-tag");
+  if (operation === "removeTag") return clientTag.execute(context, i, baseUrl, headers, headersJson, "remove-tag");
   throw new Error(`Operação desconhecida: ${operation}`);
 }
