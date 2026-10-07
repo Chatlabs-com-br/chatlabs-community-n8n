@@ -28,6 +28,7 @@ Node principal com suporte a 6 recursos e suas respectivas operações:
 | Obter por ID | GET | `/api/chat/:id` |
 | Listar Mensagens | GET | `/api/chat/:id/messages` |
 | Enviar Mensagem | POST | `/api/chat/:id/message` |
+| Enviar Template | POST | `/api/send-message` (`type: WHATSAPP_TEMPLATE`, inicia conversa com template aprovado) |
 | Obter Arquivo de Mensagem | GET | `/api/chat/message/:id/file` |
 
 #### Cliente
