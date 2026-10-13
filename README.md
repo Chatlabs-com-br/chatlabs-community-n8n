@@ -28,6 +28,8 @@ Node principal com suporte a 6 recursos e suas respectivas operações:
 | Obter por ID | GET | `/api/chat/:id` |
 | Listar Mensagens | GET | `/api/chat/:id/messages` |
 | Enviar Mensagem | POST | `/api/chat/:id/message` |
+| Transferir | POST | `/api/chat/:id/transfer` (atendente, departamento, atendente disponível ou fluxo do bot) |
+| Enviar Mensagem de Sistema | POST | `/api/chat/:id/message` (com `subject: "SYSTEM"`) |
 | Obter Arquivo de Mensagem | GET | `/api/chat/message/:id/file` |
 
 #### Cliente
@@ -38,6 +40,8 @@ Node principal com suporte a 6 recursos e suas respectivas operações:
 | Criar | POST | `/api/client` |
 | Atualizar | PUT | `/api/client/:id` |
 | Deletar | DELETE | `/api/client/:id` |
+| Adicionar Etiqueta | POST | `/api/client/:id/add-tag` (`tagName` ou `tagId`) |
+| Remover Etiqueta | POST | `/api/client/:id/remove-tag` (`tagName` ou `tagId`) |
 
 #### Etiqueta
 | Operação | Método | Endpoint |

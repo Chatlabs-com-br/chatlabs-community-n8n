@@ -32,6 +32,11 @@ export const fields: INodeProperties[] = [
         description: "Transfere para a fila de um departamento",
       },
       {
+        name: "Para Fluxo do Bot",
+        value: "TRANSFER_TO_BOT_FLOW",
+        description: "Transfere o chat para um fluxo de bot",
+      },
+      {
         name: "Para Atendente Disponível",
         value: "TRANSFER_TO_AVAILABLE_ATTENDANT",
         description: "Busca automaticamente um atendente online no departamento",
@@ -135,6 +140,35 @@ export const fields: INodeProperties[] = [
     description: "ID do departamento ou atendente de fallback",
   },
   {
+    displayName: "ID do Fluxo do Bot",
+    name: "transferBotFlowId",
+    type: "string",
+    required: true,
+    displayOptions: {
+      show: {
+        resource: ["chat"],
+        operation: ["transferChat"],
+        transferType: ["TRANSFER_TO_BOT_FLOW"],
+      },
+    },
+    default: "",
+    description: "ID (UUID) do fluxo de bot de destino",
+  },
+  {
+    displayName: "Iniciar Fluxo Automaticamente",
+    name: "transferBotFlowAutoStart",
+    type: "boolean",
+    displayOptions: {
+      show: {
+        resource: ["chat"],
+        operation: ["transferChat"],
+        transferType: ["TRANSFER_TO_BOT_FLOW"],
+      },
+    },
+    default: false,
+    description: "Inicia o fluxo do bot logo após a transferência",
+  },
+  {
     displayName: "Enviar Mensagem de Transferência",
     name: "hasTransferMessage",
     type: "boolean",
@@ -163,6 +197,11 @@ export async function execute(
     body.attendantId = context.getNodeParameter("transferAttendantId", i) as string;
   } else if (transferType === "TRANSFER_TO_DEPARTMENT") {
     body.departmentId = context.getNodeParameter("transferDepartmentId", i) as string;
+  } else if (transferType === "TRANSFER_TO_BOT_FLOW") {
+    body.transferToBotFlow = {
+      botFlowId: context.getNodeParameter("transferBotFlowId", i) as string,
+      autoStart: context.getNodeParameter("transferBotFlowAutoStart", i) as boolean,
+    };
   } else if (transferType === "TRANSFER_TO_AVAILABLE_ATTENDANT") {
     const deptId = context.getNodeParameter("transferAvailableDeptId", i) as string;
     const roleIdsRaw = context.getNodeParameter("transferRoleIds", i) as string;
