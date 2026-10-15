@@ -3,6 +3,7 @@ import * as list from "./list";
 import * as get from "./get";
 import * as listMessages from "./listMessages";
 import * as sendMessage from "./sendMessage";
+import * as sendTemplate from "./sendTemplate";
 import * as sendSystemMessage from "./sendSystemMessage";
 import * as getMessageFile from "./getMessageFile";
 import * as transferChat from "./transferChat";
@@ -20,6 +21,7 @@ export const operationOptions: INodeProperties = {
     { name: "Listar Mensagens", value: "listMessages", action: "Listar mensagens do chat" },
     { name: "Obter Arquivo de Mensagem", value: "getMessageFile", action: "Obter URL do arquivo de mensagem" },
     { name: "Enviar Mensagem", value: "sendMessage", action: "Enviar mensagem de texto" },
+    { name: "Enviar Template", value: "sendTemplate", action: "Enviar template do WhatsApp para um cliente" },
     { name: "Enviar Mensagem de Sistema", value: "sendSystemMessage", action: "Enviar mensagem de sistema" },
     { name: "Transferir", value: "transferChat", action: "Transferir chat para atendente ou departamento" },
     { name: "Encerrar", value: "closeChat", action: "Encerrar chat ativo" },
@@ -32,6 +34,7 @@ export const fields: INodeProperties[] = [
   ...get.fields,
   ...listMessages.fields,
   ...sendMessage.fields,
+  ...sendTemplate.fields,
   ...sendSystemMessage.fields,
   ...getMessageFile.fields,
   ...transferChat.fields,
@@ -50,6 +53,7 @@ export async function execute(
   if (operation === "get") return get.execute(context, i, baseUrl, headers);
   if (operation === "listMessages") return listMessages.execute(context, i, baseUrl, headers);
   if (operation === "sendMessage") return sendMessage.execute(context, i, baseUrl, headers, headersJson);
+  if (operation === "sendTemplate") return sendTemplate.execute(context, i, baseUrl, headers, headersJson);
   if (operation === "sendSystemMessage") return sendSystemMessage.execute(context, i, baseUrl, headers, headersJson);
   if (operation === "getMessageFile") return getMessageFile.execute(context, i, baseUrl, headers);
   if (operation === "transferChat") return transferChat.execute(context, i, baseUrl, headers, headersJson);
