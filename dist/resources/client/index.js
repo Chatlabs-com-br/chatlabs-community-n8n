@@ -40,6 +40,7 @@ const get = __importStar(require("./get"));
 const create = __importStar(require("./create"));
 const update = __importStar(require("./update"));
 const del = __importStar(require("./delete"));
+const clientTag = __importStar(require("./clientTag"));
 exports.operationOptions = {
     displayName: "Operação",
     name: "operation",
@@ -52,6 +53,8 @@ exports.operationOptions = {
         { name: "Criar", value: "create", action: "Criar cliente" },
         { name: "Atualizar", value: "update", action: "Atualizar cliente" },
         { name: "Deletar", value: "delete", action: "Deletar cliente" },
+        { name: "Adicionar Etiqueta", value: "addTag", action: "Adicionar etiqueta ao cliente" },
+        { name: "Remover Etiqueta", value: "removeTag", action: "Remover etiqueta do cliente" },
     ],
     default: "list",
 };
@@ -61,6 +64,7 @@ exports.fields = [
     ...create.fields,
     ...update.fields,
     ...del.fields,
+    ...clientTag.fields,
 ];
 async function execute(context, i, operation, baseUrl, headers, headersJson) {
     if (operation === "list")
@@ -73,6 +77,10 @@ async function execute(context, i, operation, baseUrl, headers, headersJson) {
         return update.execute(context, i, baseUrl, headers, headersJson);
     if (operation === "delete")
         return del.execute(context, i, baseUrl, headers);
+    if (operation === "addTag")
+        return clientTag.execute(context, i, baseUrl, headers, headersJson, "add-tag");
+    if (operation === "removeTag")
+        return clientTag.execute(context, i, baseUrl, headers, headersJson, "remove-tag");
     throw new Error(`Operação desconhecida: ${operation}`);
 }
 //# sourceMappingURL=index.js.map

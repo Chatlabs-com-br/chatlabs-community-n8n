@@ -39,6 +39,8 @@ const list = __importStar(require("./list"));
 const get = __importStar(require("./get"));
 const listMessages = __importStar(require("./listMessages"));
 const sendMessage = __importStar(require("./sendMessage"));
+const sendTemplate = __importStar(require("./sendTemplate"));
+const sendSystemMessage = __importStar(require("./sendSystemMessage"));
 const getMessageFile = __importStar(require("./getMessageFile"));
 const transferChat = __importStar(require("./transferChat"));
 const closeChat = __importStar(require("./closeChat"));
@@ -54,6 +56,8 @@ exports.operationOptions = {
         { name: "Listar Mensagens", value: "listMessages", action: "Listar mensagens do chat" },
         { name: "Obter Arquivo de Mensagem", value: "getMessageFile", action: "Obter URL do arquivo de mensagem" },
         { name: "Enviar Mensagem", value: "sendMessage", action: "Enviar mensagem de texto" },
+        { name: "Enviar Template", value: "sendTemplate", action: "Enviar template do WhatsApp para um cliente" },
+        { name: "Enviar Mensagem de Sistema", value: "sendSystemMessage", action: "Enviar mensagem de sistema" },
         { name: "Transferir", value: "transferChat", action: "Transferir chat para atendente ou departamento" },
         { name: "Encerrar", value: "closeChat", action: "Encerrar chat ativo" },
     ],
@@ -64,6 +68,8 @@ exports.fields = [
     ...get.fields,
     ...listMessages.fields,
     ...sendMessage.fields,
+    ...sendTemplate.fields,
+    ...sendSystemMessage.fields,
     ...getMessageFile.fields,
     ...transferChat.fields,
     ...closeChat.fields,
@@ -77,6 +83,10 @@ async function execute(context, i, operation, baseUrl, headers, headersJson) {
         return listMessages.execute(context, i, baseUrl, headers);
     if (operation === "sendMessage")
         return sendMessage.execute(context, i, baseUrl, headers, headersJson);
+    if (operation === "sendTemplate")
+        return sendTemplate.execute(context, i, baseUrl, headers, headersJson);
+    if (operation === "sendSystemMessage")
+        return sendSystemMessage.execute(context, i, baseUrl, headers, headersJson);
     if (operation === "getMessageFile")
         return getMessageFile.execute(context, i, baseUrl, headers);
     if (operation === "transferChat")
