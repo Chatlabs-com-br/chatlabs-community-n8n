@@ -66,6 +66,23 @@ export const fields: INodeProperties[] = [
     description: "Lista de variáveis de botões, se o template exigir (opcional)",
   },
   {
+    displayName: "Enviar Arquivo",
+    name: "templateSendFile",
+    type: "boolean",
+    displayOptions: { show },
+    default: false,
+    description: "Envia um arquivo no cabeçalho do template (DOCUMENT, IMAGE ou VIDEO)",
+  },
+  {
+    displayName: "Binary Property",
+    name: "templateBinaryPropertyName",
+    type: "string",
+    required: true,
+    displayOptions: { show: { ...show, templateSendFile: [true] } },
+    default: "data",
+    description: "Nome da propriedade binary do item que contém o arquivo",
+  },
+  {
     displayName: "Forçar Envio se Houver Chat Aberto",
     name: "templateForceIfOpenChat",
     type: "boolean",
@@ -127,7 +144,7 @@ export async function execute(
   context: IExecuteFunctions,
   i: number,
   baseUrl: string,
-  _headers: Record<string, string>,
+  headers: Record<string, string>,
   headersJson: Record<string, string>,
 ): Promise<IDataObject> {
   const name = context.getNodeParameter("templateClientName", i) as string;
@@ -160,6 +177,28 @@ export async function execute(
     input.chatAssignment = {
       botFlowId: context.getNodeParameter("templateAssignmentBotFlowId", i) as string,
     };
+  }
+
+  if (context.getNodeParameter("templateSendFile", i, false) as boolean) {
+    const binaryPropertyName = context.getNodeParameter("templateBinaryPropertyName", i) as string;
+    const binaryData = context.helpers.assertBinaryData(i, binaryPropertyName);
+    const buffer = await context.helpers.getBinaryDataBuffer(i, binaryPropertyName);
+
+    // No multipart a API lê "input" como JSON em texto e o arquivo vai em "file"
+    const formData = new FormData();
+    formData.append("input", JSON.stringify(input));
+    formData.append(
+      "file",
+      new Blob([buffer], { type: binaryData.mimeType }),
+      binaryData.fileName,
+    );
+
+    return context.helpers.httpRequest({
+      method: "POST",
+      url: `${baseUrl}/api/send-message`,
+      headers,
+      body: formData,
+    });
   }
 
   return context.helpers.httpRequest({
