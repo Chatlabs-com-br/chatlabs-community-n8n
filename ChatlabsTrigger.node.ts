@@ -40,6 +40,21 @@ export class ChatlabsTrigger implements INodeType {
   async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
     const body = this.getBodyData();
     const headers = this.getHeaderData();
+
+    // Transferência vinda de bloco de ação: o texto é a opção clicada no menu,
+    // não uma mensagem real do cliente. Move para actionOption e limpa o texto.
+    const message = body.message as IDataObject | undefined;
+    const quoted = message?.quotedMessage as IDataObject | undefined;
+    const fromActionBlock =
+      body.event === "TRANSFER" &&
+      message?.type === "INTERACTIVE" &&
+      quoted?.sender === "Bot";
+
+    body.fromActionBlock = fromActionBlock;
+    if (fromActionBlock && message) {
+      message.actionOption = message.text;
+      message.text = "";
+    }
     const query = this.getQueryData();
 
     const data: IDataObject = {

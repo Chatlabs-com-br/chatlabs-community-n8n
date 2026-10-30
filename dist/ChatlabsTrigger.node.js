@@ -36,6 +36,18 @@ class ChatlabsTrigger {
     async webhook() {
         const body = this.getBodyData();
         const headers = this.getHeaderData();
+        // Transferência vinda de bloco de ação: o texto é a opção clicada no menu,
+        // não uma mensagem real do cliente. Move para actionOption e limpa o texto.
+        const message = body.message;
+        const quoted = message === null || message === void 0 ? void 0 : message.quotedMessage;
+        const fromActionBlock = body.event === "TRANSFER" &&
+            (message === null || message === void 0 ? void 0 : message.type) === "INTERACTIVE" &&
+            (quoted === null || quoted === void 0 ? void 0 : quoted.sender) === "Bot";
+        body.fromActionBlock = fromActionBlock;
+        if (fromActionBlock && message) {
+            message.actionOption = message.text;
+            message.text = "";
+        }
         const query = this.getQueryData();
         const data = {
             body,
