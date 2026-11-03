@@ -44,6 +44,7 @@ const sendSystemMessage = __importStar(require("./sendSystemMessage"));
 const getMessageFile = __importStar(require("./getMessageFile"));
 const transferChat = __importStar(require("./transferChat"));
 const closeChat = __importStar(require("./closeChat"));
+const sendTypingIndicator = __importStar(require("./sendTypingIndicator"));
 exports.operationOptions = {
     displayName: "Operação",
     name: "operation",
@@ -57,6 +58,7 @@ exports.operationOptions = {
         { name: "Obter Arquivo de Mensagem", value: "getMessageFile", action: "Obter URL do arquivo de mensagem" },
         { name: "Enviar Mensagem", value: "sendMessage", action: "Enviar mensagem de texto" },
         { name: "Enviar Template", value: "sendTemplate", action: "Enviar template do WhatsApp para um cliente" },
+        { name: "Enviar Digitando", value: "sendTypingIndicator", action: "Mostrar digitando ao cliente" },
         { name: "Enviar Mensagem de Sistema", value: "sendSystemMessage", action: "Enviar mensagem de sistema" },
         { name: "Transferir", value: "transferChat", action: "Transferir chat para atendente ou departamento" },
         { name: "Encerrar", value: "closeChat", action: "Encerrar chat ativo" },
@@ -73,6 +75,7 @@ exports.fields = [
     ...getMessageFile.fields,
     ...transferChat.fields,
     ...closeChat.fields,
+    ...sendTypingIndicator.fields,
 ];
 async function execute(context, i, operation, baseUrl, headers, headersJson) {
     if (operation === "list")
@@ -93,6 +96,8 @@ async function execute(context, i, operation, baseUrl, headers, headersJson) {
         return transferChat.execute(context, i, baseUrl, headers, headersJson);
     if (operation === "closeChat")
         return closeChat.execute(context, i, baseUrl, headers, headersJson);
+    if (operation === "sendTypingIndicator")
+        return sendTypingIndicator.execute(context, i, baseUrl, headers, headersJson);
     throw new Error(`Operação desconhecida: ${operation}`);
 }
 //# sourceMappingURL=index.js.map
