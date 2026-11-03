@@ -32,6 +32,7 @@ Node principal com suporte a 6 recursos e suas respectivas operações:
 | Transferir | POST | `/api/chat/:id/transfer` (atendente, departamento, atendente disponível ou fluxo do bot) |
 | Enviar Mensagem de Sistema | POST | `/api/chat/:id/message` (com `subject: "SYSTEM"`) |
 | Obter Arquivo de Mensagem | GET | `/api/chat/message/:id/file` |
+| Enviar Digitando | POST | `/api/chat/:id/typing-indicator` (`type: TEXT \| AUDIO`, só WhatsApp API oficial; some após 25s) |
 
 #### Cliente
 | Operação | Método | Endpoint |

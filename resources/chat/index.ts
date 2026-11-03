@@ -8,6 +8,7 @@ import * as sendSystemMessage from "./sendSystemMessage";
 import * as getMessageFile from "./getMessageFile";
 import * as transferChat from "./transferChat";
 import * as closeChat from "./closeChat";
+import * as sendTypingIndicator from "./sendTypingIndicator";
 
 export const operationOptions: INodeProperties = {
   displayName: "Operação",
@@ -22,6 +23,7 @@ export const operationOptions: INodeProperties = {
     { name: "Obter Arquivo de Mensagem", value: "getMessageFile", action: "Obter URL do arquivo de mensagem" },
     { name: "Enviar Mensagem", value: "sendMessage", action: "Enviar mensagem de texto" },
     { name: "Enviar Template", value: "sendTemplate", action: "Enviar template do WhatsApp para um cliente" },
+    { name: "Enviar Digitando", value: "sendTypingIndicator", action: "Mostrar digitando ao cliente" },
     { name: "Enviar Mensagem de Sistema", value: "sendSystemMessage", action: "Enviar mensagem de sistema" },
     { name: "Transferir", value: "transferChat", action: "Transferir chat para atendente ou departamento" },
     { name: "Encerrar", value: "closeChat", action: "Encerrar chat ativo" },
@@ -39,6 +41,7 @@ export const fields: INodeProperties[] = [
   ...getMessageFile.fields,
   ...transferChat.fields,
   ...closeChat.fields,
+  ...sendTypingIndicator.fields,
 ];
 
 export async function execute(
@@ -58,5 +61,6 @@ export async function execute(
   if (operation === "getMessageFile") return getMessageFile.execute(context, i, baseUrl, headers);
   if (operation === "transferChat") return transferChat.execute(context, i, baseUrl, headers, headersJson);
   if (operation === "closeChat") return closeChat.execute(context, i, baseUrl, headers, headersJson);
+  if (operation === "sendTypingIndicator") return sendTypingIndicator.execute(context, i, baseUrl, headers, headersJson);
   throw new Error(`Operação desconhecida: ${operation}`);
 }
