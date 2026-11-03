@@ -4,45 +4,33 @@
 
 Pacote: [`n8n-nodes-chatlabs`](https://www.npmjs.com/package/n8n-nodes-chatlabs)
 
-```bash
-# 1. Build
-yarn build
+A publicação é automática pelo workflow `.github/workflows/publish.yml`:
 
-# 2. Commitar o dist (ele é versionado no git)
-git add dist && git commit -m "build: update dist"
+1. No PR, suba a versão sem criar tag:
+   ```bash
+   npm version patch --no-git-tag-version   # ou minor / major
+   yarn build && git add -A && git commit -m "chore: release x.y.z"
+   ```
+2. Faça o merge na `main`.
+3. O workflow vê que a versão do `package.json` ainda não está no npm, builda, publica com `--provenance` e cria a tag `vX.Y.Z`.
 
-# 3. Subir versão (cria commit + tag)
-npm version patch   # ou minor / major
-
-# 4. Publicar
-npm publish
-
-# 5. Enviar commit + tag
-git push --follow-tags
-```
-
-> `npm version` falha se o working tree estiver sujo — por isso commitar o `dist` antes.
+Merge sem mudança de versão não publica nada.
 
 ## Autenticação
 
-A publicação usa **Granular Access Token** com bypass de 2FA.
+Usa **Trusted Publishing (OIDC)**, sem token. Configuração no npmjs.com → pacote → **Settings** → **Trusted Publisher**:
 
-1. npmjs.com → **Access Tokens** → **Generate New Token** → **Granular Access Token**
-2. Permissão **Read and write** no pacote `n8n-nodes-chatlabs`
-3. Marcar **Bypass two-factor authentication**
-4. Configurar:
-   ```bash
-   npm config set //registry.npmjs.org/:_authToken=<TOKEN>
-   npm whoami   # deve mostrar: eduardoxlord
-   ```
-
-O token expira (máx. 90 dias) — se o publish falhar, gerar outro.
+| Campo | Valor |
+|---|---|
+| Publisher | GitHub Actions |
+| Organization or user | `Chatlabs-com-br` |
+| Repository | `chatlabs-community-n8n` |
+| Workflow filename | `publish.yml` |
+| Environment name | (vazio) |
 
 ## Erros comuns
 
 | Erro | Causa | Solução |
 |---|---|---|
-| `E401` no `npm whoami` | Token expirado/revogado | Gerar novo token |
-| `E404` no `PUT` do publish | Não autenticado (npm devolve 404) | Gerar novo token |
-| `E403 Two-factor authentication ... is required` | Token sem bypass de 2FA | Gerar token com **Bypass 2FA** marcado |
-| `E403 cannot publish over previously published version` | Versão já existe | `npm version patch` de novo |
+| `E404` no `PUT` do publish | Trusted Publisher não configurado ou com campo errado | Conferir repo e `publish.yml` no npm |
+| `E403 cannot publish over previously published version` | Versão já existe | Subir a versão no `package.json` de novo |
