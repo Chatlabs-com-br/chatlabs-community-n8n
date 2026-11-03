@@ -35,7 +35,8 @@ jobs:
 
   publish:
     needs: check
-    if: needs.check.outputs.publish == 'true'
+    # Only publish from main, even on manual runs
+    if: github.ref == 'refs/heads/main' && needs.check.outputs.publish == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write # push the version tag
