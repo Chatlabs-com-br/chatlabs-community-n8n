@@ -12,8 +12,7 @@ A publicação é automática pelo workflow `.github/workflows/publish.yml`:
    yarn build && git add -A && git commit -m "chore: release x.y.z"
    ```
 2. Faça o merge na `main`.
-3. O workflow vê que a versão do `package.json` ainda não está no npm e pede aprovação no environment `npm` (aba **Actions** → run → **Review deployments**).
-4. Depois da aprovação, ele builda, publica com `--provenance` e cria a tag `vX.Y.Z`.
+3. O workflow vê que a versão do `package.json` ainda não está no npm, builda, publica com `--provenance` e cria a tag `vX.Y.Z`.
 
 Merge sem mudança de versão não publica nada.
 
@@ -27,13 +26,11 @@ Usa **Trusted Publishing (OIDC)**, sem token. Configuração no npmjs.com → pa
 | Organization or user | `Chatlabs-com-br` |
 | Repository | `chatlabs-community-n8n` |
 | Workflow filename | `publish.yml` |
-| Environment name | `npm` |
-
-O environment `npm` precisa existir no GitHub (**Settings** → **Environments**) com **Required reviewers** marcado.
+| Environment name | (vazio) |
 
 ## Erros comuns
 
 | Erro | Causa | Solução |
 |---|---|---|
-| `E404` no `PUT` do publish | Trusted Publisher não configurado ou com campo errado | Conferir repo, `publish.yml` e environment `npm` no npm |
+| `E404` no `PUT` do publish | Trusted Publisher não configurado ou com campo errado | Conferir repo e `publish.yml` no npm |
 | `E403 cannot publish over previously published version` | Versão já existe | Subir a versão no `package.json` de novo |

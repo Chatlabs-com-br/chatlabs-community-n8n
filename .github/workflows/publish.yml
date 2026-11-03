@@ -37,8 +37,6 @@ jobs:
     needs: check
     if: needs.check.outputs.publish == 'true'
     runs-on: ubuntu-latest
-    # Required reviewers are configured on this environment in repo settings.
-    environment: npm
     permissions:
       contents: write # push the version tag
       id-token: write # npm trusted publishing (OIDC)
