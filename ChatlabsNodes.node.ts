@@ -27,6 +27,7 @@ export class ChatlabsNodes implements INodeType {
     },
     inputs: ["main"],
     outputs: ["main"],
+    usableAsTool: true,
     credentials: [
       {
         name: "chatlabsApi",
