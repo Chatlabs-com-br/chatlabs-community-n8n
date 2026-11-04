@@ -56,6 +56,7 @@ class ChatlabsNodes {
             },
             inputs: ["main"],
             outputs: ["main"],
+            usableAsTool: true,
             credentials: [
                 {
                     name: "chatlabsApi",

@@ -57,7 +57,35 @@ export class ChatlabsTrigger implements INodeType {
     }
     const query = this.getQueryData();
 
+    // Campos prontos para mapear no fluxo, sem expressão longa em cima do body.
+    const client = body.client as IDataObject | undefined;
+    const attendant = body.attendant as IDataObject | undefined;
+    const file = message?.file as IDataObject | undefined;
+    const interactive = message?.interactive as IDataObject | undefined;
+    const replyTitle = (reply: unknown) =>
+      (reply as IDataObject | undefined)?.title as string | undefined;
+    // Vindo de bloco de ação, a opção clicada fica só em actionOption.
+    const text = fromActionBlock
+      ? ""
+      : (message?.text as string | undefined) ||
+        replyTitle(interactive?.button_reply) ||
+        replyTitle(interactive?.list_reply) ||
+        replyTitle(message?.button_reply) ||
+        replyTitle(message?.list_reply) ||
+        "";
+
     const data: IDataObject = {
+      event: String(body.event ?? "").toUpperCase(),
+      chatId: String(body.chatId ?? ""),
+      companyId: Number(body.companyId ?? 0),
+      attendantId: String(attendant?.id ?? ""),
+      clientName: String(client?.name ?? ""),
+      clientPhone: String(client?.phone ?? ""),
+      text: String(text).trim(),
+      actionOption: String(message?.actionOption ?? ""),
+      messageType: String(message?.type ?? "TEXT").toUpperCase(),
+      fileUrl: String(file?.url ?? ""),
+      fromActionBlock,
       body,
       headers,
       query,

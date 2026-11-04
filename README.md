@@ -66,6 +66,43 @@ Node principal com suporte a 6 recursos e suas respectivas operações:
 
 Inicia um fluxo quando o Chatlabs dispara um evento via **Bot Action**. Expõe um webhook no caminho `chatlabs-trigger` que deve ser configurado como URL de destino na Bot Action do Chatlabs.
 
+Além do `body`, `headers` e `query` crus, a saída traz campos prontos para mapear:
+
+| Campo | Origem |
+|---|---|
+| `event` | `body.event` em maiúsculas (`MESSAGE`, `TRANSFER`...) |
+| `chatId`, `companyId` | `body.chatId`, `body.companyId` (número) |
+| `attendantId` | `body.attendant.id` |
+| `clientName`, `clientPhone` | `body.client.name`, `body.client.phone` |
+| `text` | texto da mensagem ou título do botão/lista clicado; vazio quando `fromActionBlock` |
+| `actionOption` | opção do menu quando o chat veio de bloco de ação |
+| `messageType` | `body.message.type` em maiúsculas (`TEXT`, `AUDIO`, `IMAGE`, `INTERACTIVE`...) |
+| `fileUrl` | `body.message.file.url` |
+| `fromActionBlock` | `true` quando é transferência vinda de bloco de ação |
+
+---
+
+## Uso com AI Agent
+
+O node **Chatlabs** tem `usableAsTool`, então pode ser ligado direto na entrada **Tool** do AI Agent (transferir chat, etiquetar cliente, buscar cliente etc.). Use `$fromAI()` nos campos que o agente deve preencher.
+
+> Em versões do n8n que ainda bloqueiam community nodes como tool, defina `N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true` no container.
+
+## Template: atendente de IA
+
+`templates/atendimento-ia.json` é um fluxo pronto de atendimento com IA (OpenAI), baseado no fluxo da Martelli (CHATLABS-916):
+
+Bot Action → config/validação → áudio (transcrição) e imagem (análise) viram texto → Postgres → digitando → debounce → filtro de entrada (prompt injection, SQL, segredos) → AI Agent → filtro de saída (valores, horários, links/telefones não oficiais, vazamento de prompt) → responde ou transfere para setor humano com nota interna.
+
+Para usar:
+
+1. Rode `templates/schema.sql` no Postgres (se as tabelas `chatlabs.*` ainda não existirem).
+2. No n8n, **Import from File** com `templates/atendimento-ia.json`.
+3. No node **NORM**, preencha `company_id`, `departamento_humano_id`, `nome_ia`, `nome_empresa` e quais regras do filtro de saída ligar.
+4. No node **AGENTE**, troque todo `PREENCHER` do system message (condução, regras e BASE de conhecimento).
+5. Configure as credenciais Chatlabs API, OpenAI e Postgres.
+6. Aponte a Bot Action para a **Production URL** do Chatlabs Trigger.
+
 ---
 
 ## Credenciais
