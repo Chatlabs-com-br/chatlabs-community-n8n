@@ -62,6 +62,49 @@ Node principal com suporte a 6 recursos e suas respectivas operações:
 
 ---
 
+### Chatlabs CRM (node de ação)
+
+Consome a API de integração do CRM (`{baseUrl}/api/integration/...`). Usa a credencial **Chatlabs CRM API**. Listagens que devolvem array viram um item por elemento.
+
+#### Funil
+| Operação | Método | Endpoint |
+|---|---|---|
+| Listar (workspaces com boards e colunas) | GET | `/api/integration/workspace/list` |
+
+#### Card (Negociação)
+| Operação | Método | Endpoint |
+|---|---|---|
+| Listar | GET | `/api/integration/card/list` |
+| Obter | GET | `/api/integration/card/load/:id` |
+| Criar | POST | `/api/integration/card/store` |
+| Atualizar | PUT | `/api/integration/card/update/:id` |
+| Mover | PUT | `/api/integration/card/move/:id` |
+| Listar por Contato | GET | `/api/integration/chatlabs/card/list` |
+| Criar para Contato | POST | `/api/integration/chatlabs/card/store` |
+| Mover por Contato | PUT | `/api/integration/chatlabs/card/move` |
+
+#### Comentário de Card / Tarefa de Card
+| Operação | Método | Endpoint |
+|---|---|---|
+| Listar comentários | GET | `/api/integration/crm-card-comment/list` |
+| Criar comentário | POST | `/api/integration/crm-card-comment/store` |
+| Listar tarefas | GET | `/api/integration/crm-card-task/list` |
+| Criar tarefa | POST | `/api/integration/crm-card-task/store` |
+
+#### Contato / Empresa / Etiqueta de Card
+| Recurso | Endpoints |
+|---|---|
+| Contato | `/api/integration/contact/{list, load/:id, store, update/:id, delete/:id}` |
+| Empresa | `/api/integration/client/{list, load/:id, store, update/:id, delete/:id}` |
+| Etiqueta de Card | `/api/integration/crm-tag/{list, load/:id, store, update/:id, delete/:id}` |
+
+#### Usuário
+| Operação | Método | Endpoint |
+|---|---|---|
+| Listar | GET | `/api/integration/user/list` |
+
+---
+
 ### Chatlabs Trigger (node de gatilho)
 
 Inicia um fluxo quando o Chatlabs dispara um evento via **Bot Action**. Expõe um webhook no caminho `chatlabs-trigger` que deve ser configurado como URL de destino na Bot Action do Chatlabs.
@@ -74,6 +117,12 @@ Configure a credencial **Chatlabs API** com:
 
 - **API Key** — Bearer token gerado no painel do Chatlabs
 - **Base URL** — URL base da sua instância (ex: `https://app.chatlabs.com.br`)
+
+Configure a credencial **Chatlabs CRM API** com:
+
+- **Base URL** — URL base da API do CRM
+- **Tenant Token** — token da empresa no CRM (header `tenant-token`)
+- **System Token** — opcional; enviado no header `system-token` quando preenchido
 
 ---
 

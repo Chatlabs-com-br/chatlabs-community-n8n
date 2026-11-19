@@ -1,0 +1,1 @@
+{"version":3,"file":"ChatlabsCrm.node.d.ts","sourceRoot":"","sources":["../ChatlabsCrm.node.ts"],"names":[],"mappings":"AAAA,OAAO,EAEL,iBAAiB,EACjB,kBAAkB,EAClB,SAAS,EACT,oBAAoB,EAErB,MAAM,cAAc,CAAC;AAWtB,qBAAa,WAAY,YAAW,SAAS;IAC3C,WAAW,EAAE,oBAAoB,CAsD/B;IAEI,OAAO,CAAC,IAAI,EAAE,iBAAiB,GAAG,OAAO,CAAC,kBAAkB,EAAE,EAAE,CAAC;CAqExE"}
