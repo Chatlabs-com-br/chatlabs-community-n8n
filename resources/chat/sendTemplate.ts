@@ -66,6 +66,17 @@ export const fields: INodeProperties[] = [
     description: "Lista de variáveis de botões, se o template exigir (opcional)",
   },
   {
+    displayName: "Detalhes do Pedido (JSON)",
+    name: "templateOrderDetails",
+    type: "json",
+    displayOptions: { show },
+    default: "",
+    placeholder:
+      '{ "reference_id": "1", "type": "digital-goods", "payment_type": "br", "currency": "BRL", "total_amount": { "value": 9990, "offset": 100 }, "payment_settings": [{ "type": "boleto", "boleto": { "digitable_line": "..." } }], "order": { "status": "pending", "items": [{ "retailer_id": "1", "name": "Fatura", "quantity": 1, "amount": { "value": 9990, "offset": 100 } }], "subtotal": { "value": 9990, "offset": 100 }, "tax": { "value": 0, "offset": 100 } } }',
+    description:
+      "Obrigatório quando o template tem botão ORDER_DETAILS (pagamento com boleto/PIX). Vai no campo orderDetails da API (opcional)",
+  },
+  {
     displayName: "Enviar Arquivo",
     name: "templateSendFile",
     type: "boolean",
@@ -168,6 +179,8 @@ export async function execute(
   if (variablesBody) input.variablesBody = variablesBody as IDataObject;
   if (variablesHeader) input.variablesHeader = variablesHeader as IDataObject;
   if (variablesButtons) input.variablesButtons = variablesButtons as IDataObject[];
+  const orderDetails = parseJson(context.getNodeParameter("templateOrderDetails", i, ""), "Detalhes do Pedido");
+  if (orderDetails) input.orderDetails = orderDetails as IDataObject;
 
   if (assignmentType === "user") {
     input.chatAssignment = {
